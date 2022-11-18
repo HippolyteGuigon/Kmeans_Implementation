@@ -3,7 +3,7 @@
 *.png
 *.csv
 *.json
-*.txt
+projet_kmeans.txt
 *.npy
 
 
