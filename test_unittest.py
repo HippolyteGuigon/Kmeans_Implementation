@@ -19,10 +19,13 @@ class Test(unittest.TestCase):
 
         n_rows = configs["number_of_individuals"]
         n_columns = configs["number_dimension"]
+        lim_min = configs["limit_min"]
+        lim_max = configs["limit_max"]
 
         self.assertEqual(test_data.shape[0], n_rows)
-
         self.assertEqual(test_data.shape[1], n_columns)
+        self.assertGreaterEqual(test_data.min(), lim_min)
+        self.assertLessEqual(test_data.max(), lim_max)
 
 
 if __name__ == "__main__":
