@@ -1,6 +1,6 @@
 import unittest
 import yaml
-from src.data_generator import Data_Generator
+from src.data_generator.data_generator import Data_Generator
 
 test = Data_Generator()
 
