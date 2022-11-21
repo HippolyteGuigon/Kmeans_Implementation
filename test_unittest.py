@@ -7,7 +7,7 @@ test = Data_Generator()
 with open("configs/data_params.yml", "r") as ymlfile:
     configs = yaml.safe_load(ymlfile)
 
-
+print("CA MAAAAAAARCHE")
 class Test(unittest.TestCase):
     """
     The goal of this class is to implement unnitest

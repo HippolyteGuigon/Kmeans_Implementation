@@ -2,7 +2,8 @@ import yaml
 import sys
 import numpy as np
 
-sys.path.insert(0, "../configs")
+sys.path.insert(0, "../../configs")
+
 
 class Data_Generator:
     """
@@ -25,7 +26,9 @@ class Data_Generator:
         n_columns = self.configs["number_dimension"]
         lim_min = self.configs["limit_min"]
         lim_max = self.configs["limit_max"]
-        data_generated = np.random.uniform(low=lim_min, high=lim_max, size=(n_rows, n_columns))
+        data_generated = np.random.uniform(
+            low=lim_min, high=lim_max, size=(n_rows, n_columns)
+        )
         return data_generated
 
     def save_data(self) -> None:
@@ -40,5 +43,3 @@ class Data_Generator:
 if __name__ == "__main__":
     loader = Data_Generator()
     loader.save_data()
-    
-    
