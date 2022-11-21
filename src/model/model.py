@@ -7,9 +7,10 @@ import sys
 import yaml
 import os
 from sklearn.metrics.pairwise import pairwise_distances
-from data_generator import Data_Generator
 
 sys.path.insert(0, os.path.join(os.getcwd(), "src/data_generator"))
+
+from data_generator import Data_Generator
 
 class Model(Data_Generator):
     """
@@ -51,7 +52,6 @@ class Model(Data_Generator):
     def compute_distances(self):
         distances = pairwise_distances(self.data, self.initial_coordinates)
         cluster_belonging = np.argsort(distances)[:, 0]
-        print(cluster_belonging)
 
 
 a = Model()
