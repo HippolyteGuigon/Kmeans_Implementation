@@ -1,9 +1,9 @@
 import yaml
 import sys
 import numpy as np
+from pathlib import Path
 
-sys.path.insert(0, "../../configs")
-
+sys.path.insert(0, "../configs")
 
 class Data_Generator:
     """
