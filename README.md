@@ -30,8 +30,9 @@ The all project was coded under PEP-8 (https://peps.python.org/pep-0008/) and fl
 ## How to use ? 
 
 To choose the parameters of the K-means algorithm you want to launch (number of clusters, 
-number of points, number of dimensions) you have to specify them in the following configs file:
--```configs/data_params.yml```
--```configs/model_params.yml```
+number of points, number of dimensions) you have to specify them in the following configs file:  
+
+  -```configs/data_params.yml```  
+  -```configs/model_params.yml```
 
 Then, run the following command: ```python run main.py```
