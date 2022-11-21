@@ -5,6 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, "../configs")
 
+
 class Data_Generator:
     """
     The goal of this class is generating random data according
