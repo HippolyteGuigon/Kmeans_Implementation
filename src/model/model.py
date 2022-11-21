@@ -1,7 +1,3 @@
-# As a user, I want to have my random-generated data returned
-# As a user, I want to have K points generated within the plan
-# As a user, I want every point to be assigned to the nearest cluster point
-
 import numpy as np
 import sys
 import yaml
@@ -11,6 +7,7 @@ from sklearn.metrics.pairwise import pairwise_distances
 sys.path.insert(0, os.path.join(os.getcwd(), "src/data_generator"))
 
 from data_generator import Data_Generator
+
 
 class Model(Data_Generator):
     """
@@ -43,15 +40,15 @@ class Model(Data_Generator):
         lim_min = self.configs["limit_min"]
         lim_max = self.configs["limit_max"]
         initial_cluster_coordinates = np.random.uniform(
-            low=lim_min, high=lim_max, 
-            size=(self.K, self.configs["number_dimension"])
+            low=lim_min, high=lim_max, size=(self.K, self.configs["number_dimension"])
         )
         self.initial_coordinates = initial_cluster_coordinates
         return self.initial_coordinates
 
     def compute_distances(self):
         distances = pairwise_distances(self.data, self.initial_coordinates)
-        cluster_belonging = np.argsort(distances)[:, 0]
+        cluster_belonging = np.argmin(distances, axis=1)
+        return cluster_belonging
 
 
 a = Model()
