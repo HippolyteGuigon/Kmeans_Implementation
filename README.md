@@ -22,4 +22,4 @@ The all project was coded under PEP-8 (https://peps.python.org/pep-0008/) and fl
 
 ## Screenshot 
 
-![alt text](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.geeksforgeeks.org%2Fml-k-means-algorithm%2F&psig=AOvVaw0lR_G29XM3opYQ3iLy4zJ-&ust=1669141404299000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCKjDl7vyv_sCFQAAAAAdAAAAABAD)
+![alt text](https://github.com/HippolyteGuigon/Kmeans_Implementation/blob/features_updating_documentation_configs/K_means.png)
