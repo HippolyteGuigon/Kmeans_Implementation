@@ -8,6 +8,7 @@
 
 #Except these files
 
+!K_means.png
 !requirements.txt
 
 # Byte-compiled / optimized / DLL files
