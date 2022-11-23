@@ -1,5 +1,5 @@
 import yaml
-
+import os
 
 def load_conf(path: str):
     """
@@ -8,6 +8,7 @@ def load_conf(path: str):
     Arguments:
     path: str: The path of the configuration file
     """
+    path=os.path.join(os.getcwd(),path)
     with open(path, "r") as ymlfile:
         configs = yaml.safe_load(ymlfile)
 
