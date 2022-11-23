@@ -1,6 +1,7 @@
 import yaml
 
-def load_conf(path:str):
+
+def load_conf(path: str):
     """
     The goal of this function is loading
     a configuration file from a path given

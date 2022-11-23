@@ -7,22 +7,15 @@ from src.confs.confs import load_conf
 test = Data_Generator()
 model_test = Model()
 
-#with open("configs/data_params.yml", "r") as ymlfile:
-#    configs = yaml.safe_load(ymlfile)
-
-#with open("configs/model_params.yml", "r") as ymlfile:
-#    configs_model = yaml.safe_load(ymlfile)
-
-
 class Test(unittest.TestCase):
     """
     The goal of this class is to implement unnitest
     and check everything commited makes sense
     """
 
-    def __init__(self):
-        self.configs=load_conf("configs/data_params.yml")
-        self.configs_model=load_conf("configs/model_params.yml")
+    def __init__(self,path_config="configs/data_params.yml",path_model="configs/model_params.yml"):
+        self.configs=load_conf(path_config)
+        self.configs_model=load_conf(path_model)
 
     def test_generated_data(self):
         test_data = test.generate_data()
