@@ -2,6 +2,7 @@ import unittest
 import yaml
 from src.data_generator.data_generator import Data_Generator
 from src.model.model import Model
+from src.confs.confs import load_conf
 
 test = Data_Generator()
 model_test = Model()
