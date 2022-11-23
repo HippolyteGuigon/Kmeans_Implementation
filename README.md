@@ -25,7 +25,7 @@ The all project was coded under PEP-8 (https://peps.python.org/pep-0008/) and fl
 
 ## Screenshot 
 
-![alt text](https://github.com/HippolyteGuigon/Kmeans_Implementation/blob/features_updating_documentation_configs/K_means.png)
+![alt text](https://github.com/HippolyteGuigon/Kmeans_Implementation/blob/main/ressources/K_means.png)
 
 ## How to use ? 
 
