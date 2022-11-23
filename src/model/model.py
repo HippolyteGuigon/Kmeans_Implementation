@@ -1,6 +1,5 @@
 import numpy as np
 import sys
-import yaml
 import os
 from sklearn.metrics.pairwise import pairwise_distances
 from src.confs.confs import load_conf
@@ -44,8 +43,9 @@ class Model(Data_Generator):
     def compute_distances(self):
         distances = pairwise_distances(self.data, self.initial_coordinates)
         cluster_belonging = np.argmin(distances, axis=1)
+        full_data=np.column_stack((self.data,cluster_belonging))
+        np.save(self.configs_model["path_save"],full_data)
         return cluster_belonging
-
 
 a = Model()
 a.generate_initial_K()

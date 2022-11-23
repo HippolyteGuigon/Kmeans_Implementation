@@ -1,3 +1,5 @@
 #The goal of this yml is to have the parameters of the KMeans model
 
 K: 3
+
+path_save: data/data_generated.npy
