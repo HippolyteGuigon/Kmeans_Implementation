@@ -43,7 +43,7 @@ class Model(Data_Generator):
     def compute_distances(self):
         distances = pairwise_distances(self.data, self.initial_coordinates)
         cluster_belonging = np.argmin(distances, axis=1)
-        full_data = np.hstack(self.initial_coordinates, cluster_belonging)
+        full_data = np.hstack((self.initial_coordinates, cluster_belonging))
         np.save(self.configs_model["save_path"], full_data)
         return cluster_belonging
 
