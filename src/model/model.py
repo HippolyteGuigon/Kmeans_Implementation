@@ -1,6 +1,5 @@
 import numpy as np
 import sys
-import yaml
 import os
 from sklearn.metrics.pairwise import pairwise_distances
 from src.confs.confs import load_conf
@@ -21,7 +20,7 @@ class Model(Data_Generator):
         path_config_model="configs/model_params.yml",
         path_config_file="configs/data_params.yml",
     ):
-    
+
         self.configs = load_conf(path_config_file)
         self.configs_model = load_conf(path_config_model)
         self.K = self.configs_model["K"]
@@ -44,6 +43,8 @@ class Model(Data_Generator):
     def compute_distances(self):
         distances = pairwise_distances(self.data, self.initial_coordinates)
         cluster_belonging = np.argmin(distances, axis=1)
+        full_data = np.hstack(self.initial_coordinates, cluster_belonging)
+        np.save(self.configs_model["save_path"], full_data)
         return cluster_belonging
 
 

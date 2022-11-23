@@ -1,5 +1,4 @@
 import unittest
-import yaml
 from src.data_generator.data_generator import Data_Generator
 from src.model.model import Model
 from src.confs.confs import load_conf
@@ -7,8 +6,9 @@ from src.confs.confs import load_conf
 test = Data_Generator()
 model_test = Model()
 
-configs=load_conf("configs/data_params.yml")
-configs_model=load_conf("configs/model_params.yml")
+configs = load_conf("configs/data_params.yml")
+configs_model = load_conf("configs/model_params.yml")
+
 
 class Test(unittest.TestCase):
     """
@@ -31,6 +31,7 @@ class Test(unittest.TestCase):
 
     def test_initial_centroids(self):
         test_centroid = model_test.generate_initial_K()
+        model_test.compute_distances()
         self.assertEqual(test_centroid.shape[0], configs_model["K"])
         self.assertEqual(test_centroid.shape[1], configs["number_dimension"])
 
