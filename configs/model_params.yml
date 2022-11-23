@@ -2,4 +2,4 @@
 
 K: 3
 
-save_path: data/data_generated.npy
+path_save: data/data_generated.npy
