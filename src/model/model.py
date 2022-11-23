@@ -3,6 +3,7 @@ import sys
 import yaml
 import os
 from sklearn.metrics.pairwise import pairwise_distances
+from src.confs.confs import load_conf
 
 sys.path.insert(0, os.path.join(os.getcwd(), "src/data_generator"))
 
@@ -20,14 +21,9 @@ class Model(Data_Generator):
         path_config_model="configs/model_params.yml",
         path_config_file="configs/data_params.yml",
     ):
-        with open(path_config_model, "r") as ymlfile:
-            configs_model = yaml.safe_load(ymlfile)
-
-        with open(path_config_file, "r") as ymlfile:
-            configs_file = yaml.safe_load(ymlfile)
-
-        self.configs = configs_file
-        self.configs_model = configs_model
+    
+        self.configs = load_conf(path_config_file)
+        self.configs_model = load_conf(path_config_model)
         self.K = self.configs_model["K"]
         self.data = super().generate_data()
 

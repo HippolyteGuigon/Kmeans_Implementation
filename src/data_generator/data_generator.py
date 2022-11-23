@@ -2,7 +2,7 @@ import yaml
 import sys
 import numpy as np
 from pathlib import Path
-
+from src.confs.confs import load_conf
 sys.path.insert(0, "../configs")
 
 
@@ -13,10 +13,7 @@ class Data_Generator:
     """
 
     def __init__(self, path_config="configs/data_params.yml") -> None:
-        with open(path_config, "r") as ymlfile:
-            configs = yaml.safe_load(ymlfile)
-
-        self.configs = configs
+        self.configs = load_conf(path_config)
 
     def generate_data(self) -> np.array:
         """

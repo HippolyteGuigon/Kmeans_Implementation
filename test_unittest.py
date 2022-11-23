@@ -2,15 +2,13 @@ import unittest
 import yaml
 from src.data_generator.data_generator import Data_Generator
 from src.model.model import Model
+from src.confs.confs import load_conf
 
 test = Data_Generator()
 model_test = Model()
 
-with open("configs/data_params.yml", "r") as ymlfile:
-    configs = yaml.safe_load(ymlfile)
-
-with open("configs/model_params.yml", "r") as ymlfile:
-    configs_model = yaml.safe_load(ymlfile)
+configs=load_conf("configs/data_params.yml")
+configs_model=load_conf("configs/model_params.yml")
 
 
 class Test(unittest.TestCase):
