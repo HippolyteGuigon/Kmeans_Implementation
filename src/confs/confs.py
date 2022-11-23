@@ -9,6 +9,7 @@ def load_conf(path: str):
     path: str: The path of the configuration file
     """
     path=os.path.join(os.getcwd(),path)
+    print("ICIIII",path)
     with open(path, "r") as ymlfile:
         configs = yaml.safe_load(ymlfile)
 
