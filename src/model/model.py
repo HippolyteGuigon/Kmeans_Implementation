@@ -20,7 +20,7 @@ class Model(Data_Generator):
         path_config_model="configs/model_params.yml",
         path_config_file="configs/data_params.yml",
     ):
-    
+
         self.configs = load_conf(path_config_file)
         self.configs_model = load_conf(path_config_model)
         self.K = self.configs_model["K"]
