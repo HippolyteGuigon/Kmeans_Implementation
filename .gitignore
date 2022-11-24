@@ -5,6 +5,7 @@
 *.json
 *.txt
 *.npy
+*.log
 
 #Except these files
 
