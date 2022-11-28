@@ -3,6 +3,7 @@ import sys
 import os
 from sklearn.metrics.pairwise import pairwise_distances
 from scipy import spatial
+from src.confs.confs import load_conf
 
 sys.path.insert(0, os.path.join(os.getcwd(), "src/confs"))
 sys.path.insert(0, os.path.join(os.getcwd(), "src/data_generator"))
@@ -10,7 +11,6 @@ sys.path.insert(0, os.path.join(os.getcwd(), "src/iteration"))
 
 from data_generator import Data_Generator
 from iteration import Generate_Region
-from confs import load_confs
 
 class Model(Data_Generator,Generate_Region):
     """
