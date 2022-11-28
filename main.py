@@ -19,6 +19,7 @@ parser=argparse.ArgumentParser()
 parser.add_argument("Name",
 help="The name entered by the user to easily find your own iteration in the logs",
 type=str)
+
 args=parser.parse_args()
 
 def model_launch():
