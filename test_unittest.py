@@ -31,7 +31,7 @@ class Test(unittest.TestCase):
 
     def test_initial_centroids(self):
         test_centroid = model_test.generate_initial_K()
-        model_test.compute_distances()
+        model_test.first_attribution()
         self.assertEqual(test_centroid.shape[0], configs_model["K"])
         self.assertEqual(test_centroid.shape[1], configs["number_dimension"])
 

@@ -26,7 +26,7 @@ def model_launch():
     logger.info(f"Model Charged {args.Name}")
     model.generate_initial_K()
     logger.info(f"Initial centroïds initialized {args.Name}")
-    model.compute_distances()
+    model.first_attribution()
     logger.info(f"First iteration done {args.Name}")
 
 if __name__=="__main__":

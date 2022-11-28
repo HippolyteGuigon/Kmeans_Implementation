@@ -2,9 +2,12 @@ import yaml
 import sys
 import numpy as np
 from pathlib import Path
-from src.confs.confs import load_conf
+import os 
+
+sys.path.insert(0, os.path.join(os.getcwd(), "src/confs"))
 sys.path.insert(0, "../configs")
 
+from confs import load_conf
 
 class Data_Generator:
     """
