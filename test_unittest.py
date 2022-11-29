@@ -34,7 +34,6 @@ class Test(unittest.TestCase):
         model_test.first_attribution()
         self.assertEqual(test_centroid.shape[0], configs_model["K"])
         self.assertEqual(test_centroid.shape[1], configs["number_dimension"])
-
-
+    
 if __name__ == "__main__":
     unittest.main()
