@@ -50,4 +50,5 @@ class Generate_Region:
         attributed_regions = clusters[closest_points]
         data_region = np.column_stack((data_region, attributed_regions))
         unique_centroids = np.unique(clusters)
+        print(data_region)
         return data_region

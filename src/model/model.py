@@ -62,7 +62,7 @@ class Model(Data_Generator, Generate_Region):
     def launch_iteration(self):
         self.current_repartition = self.first_attribution()
         self.generate_region.compute_centroid(self.current_repartition)
-
+    
 
 a = Model()
 a.generate_initial_K()
