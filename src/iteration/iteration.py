@@ -9,11 +9,12 @@ from scipy import spatial
 
 class Generate_Region:
     """
-    The goal of this class is, at each step of the KMeans algorithm, 
-    after points are attributed to the nearest cluster, to determine 
+    The goal of this class is, at each step of the KMeans algorithm,
+    after points are attributed to the nearest cluster, to determine
     the influence region of each cluster and then compute the barycenter
     of each of these regions.
     """
+
     def __init__(
         self,
         path_config_model="configs/model_params.yml",
@@ -23,7 +24,7 @@ class Generate_Region:
         self.configs = load_conf(path_config_file)
         self.configs_model = load_conf(path_config_model)
 
-    def initiate_region_points(self)->np.array(float):
+    def initiate_region_points(self) -> np.array(float):
         """
         Generates the data randomly according to the configs
         file with a uniform law.
@@ -41,7 +42,7 @@ class Generate_Region:
         )
         return data_generated
 
-    def compute_centroid(self, data_points)->np.array(float):
+    def compute_centroid(self, data_points) -> np.array(float):
         """
         The goal of this function is to determine  each cluster zone of
         influence that will then be used to compute the centroids. Points are generated

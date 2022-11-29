@@ -31,7 +31,7 @@ class Model(Data_Generator, Generate_Region):
         self.data_region = super().initiate_region_points()
         self.generate_region = Generate_Region()
 
-    def generate_initial_K(self)->np.array(float):
+    def generate_initial_K(self) -> np.array(float):
         """
         The goal of this function is to initialize K centroids
         randomly that will be then used to allocate points between
@@ -41,7 +41,7 @@ class Model(Data_Generator, Generate_Region):
             None
 
         Returns:
-            initial_coordinates: np.array(float): The coordinates of the 
+            initial_coordinates: np.array(float): The coordinates of the
             K centroids
         """
         lim_min = self.configs["limit_min"]
@@ -52,14 +52,14 @@ class Model(Data_Generator, Generate_Region):
         self.initial_coordinates = initial_cluster_coordinates
         return self.initial_coordinates
 
-    def first_attribution(self)->np.array(float):
+    def first_attribution(self) -> np.array(float):
         """
-        The goal of this function is to attribute the 
+        The goal of this function is to attribute the
         points to the centroids generated in the previous
         function as a first iteration
 
         Arguments:
-            None 
+            None
 
         Returns:
             full_data: np.array(float): Numpy array with the
@@ -72,15 +72,15 @@ class Model(Data_Generator, Generate_Region):
         np.save(self.configs_model["path_save"], full_data)
         return full_data
 
-    def cluster_attribution(self, centroids)->np.array(float):
+    def cluster_attribution(self, centroids) -> np.array(float):
         """
         The goal of this function is to return, at each step of
-        the algorithm, to attribute each point to the nearest 
-        centroid. 
+        the algorithm, to attribute each point to the nearest
+        centroid.
 
         Arguments:
-            centroids: np.array(float): The coordinates of the 
-            centroids at each step 
+            centroids: np.array(float): The coordinates of the
+            centroids at each step
 
         Returns:
             full_data: np.array(float): Numpy array with the
@@ -93,12 +93,12 @@ class Model(Data_Generator, Generate_Region):
         np.save(self.configs_model["path_save"], full_data)
         return full_data
 
-    def launch_iteration(self)->None:
+    def launch_iteration(self) -> None:
         """
-        The goal of this function is, at each step of the 
+        The goal of this function is, at each step of the
         algorithm, to compute the region of influence of each
         centroid and its centroid
-        
+
         Arguments:
             None
 
@@ -107,7 +107,7 @@ class Model(Data_Generator, Generate_Region):
         """
         self.current_repartition = self.first_attribution()
         self.generate_region.compute_centroid(self.current_repartition)
-    
+
 
 a = Model()
 a.generate_initial_K()

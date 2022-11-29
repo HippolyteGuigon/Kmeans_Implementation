@@ -1,14 +1,15 @@
 import yaml
 
-def load_conf(path:str)->yaml:
+
+def load_conf(path: str) -> yaml:
     """
-    The goal of this function is to load the 
-    params 
+    The goal of this function is to load the
+    params
 
-    Arguments: 
-        path: str The path of configuration file to be loaded 
+    Arguments:
+        path: str The path of configuration file to be loaded
 
-    Returns: 
+    Returns:
         file: yaml file The configuration file loaded
     """
     with open(path, "r") as ymlfile:
