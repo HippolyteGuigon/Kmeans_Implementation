@@ -12,6 +12,7 @@
 
 !K_means.png
 !requirements.txt
+!data_generated.npy
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
