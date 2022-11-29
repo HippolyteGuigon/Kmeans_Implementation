@@ -29,9 +29,12 @@ class Generate_Region:
         Generates the data randomly according to the configs
         file with a uniform law.
 
-        Return:
-        np.array(float) : Set of points that will be used to
-        determine the centroids of the regions
+        Arguments:
+            None
+
+        Returns:
+            np.array(float) : Set of points that will be used to
+            determine the centroids of the regions
         """
         n_rows = 1000 * self.configs["number_of_individuals"]
         n_columns = self.configs["number_dimension"]
@@ -49,11 +52,12 @@ class Generate_Region:
         randomly and attributed to nearest cluster's appartenance points.
         Regions emerging from this operation are then used to compute barycentre
 
-        Args:
-        data_points: np.array(float): The original points with attributed clusters at a cetrain step
+        Arguments:
+            data_points: np.array(float): The original points with attributed
+            clusters at a cetrain step
 
-        Return:
-        np.array(float) with the centroids of each clusters
+        Returns:
+            data_points: np.array(float) with the centroids of each clusters
         """
         data_region = self.initiate_region_points()
         clusters = data_points[:, -1]

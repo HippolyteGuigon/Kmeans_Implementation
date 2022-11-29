@@ -9,5 +9,6 @@ repos:
     hooks:
     - id: flake8
 
+
 #NB: To skip a test, you need to enter in the commit SKIP=flake8 git commit -m "foo"
 #git commit -m "Some comments" --no-verify
