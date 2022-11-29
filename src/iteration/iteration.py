@@ -57,7 +57,7 @@ class Generate_Region:
             clusters at a cetrain step
 
         Returns:
-            new_centroids_coordinates: np.array(float) with the coordinates of 
+            new_centroids_coordinates: np.array(float) with the coordinates of
             new-computed centroids
         """
         data_region = self.initiate_region_points()
@@ -67,12 +67,17 @@ class Generate_Region:
         attributed_regions = clusters[closest_points]
         data_region = np.column_stack((data_region, attributed_regions))
         unique_centroids = np.unique(clusters)
-        new_centroids_coordinates=np.zeros(shape=(self.configs_model["K"],
-        self.configs["number_dimension"]))
+        new_centroids_coordinates = np.zeros(
+            shape=(self.configs_model["K"], self.configs["number_dimension"])
+        )
 
         for i, centroid in enumerate(unique_centroids):
-            centroid_region=data_region[data_region[:,-1]==centroid][:,:-1]
+            centroid_region = data_region[data_region[:, -1] == centroid][:, :-1]
             length = centroid_region.shape[0]
-            new_centroids_coordinates[i]=np.array([np.sum(centroid_region[:,c])/length 
-            for c in range(centroid_region.shape[1])])
+            new_centroids_coordinates[i] = np.array(
+                [
+                    np.sum(centroid_region[:, c]) / length
+                    for c in range(centroid_region.shape[1])
+                ]
+            )
         return new_centroids_coordinates
