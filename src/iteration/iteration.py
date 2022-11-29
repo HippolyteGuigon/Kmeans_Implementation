@@ -8,6 +8,12 @@ from scipy import spatial
 
 
 class Generate_Region:
+    """
+    The goal of this class is, at each step of the KMeans algorithm, 
+    after points are attributed to the nearest cluster, to determine 
+    the influence region of each cluster and then compute the barycenter
+    of each of these regions.
+    """
     def __init__(
         self,
         path_config_model="configs/model_params.yml",
@@ -17,10 +23,14 @@ class Generate_Region:
         self.configs = load_conf(path_config_file)
         self.configs_model = load_conf(path_config_model)
 
-    def initiate_region_points(self):
+    def initiate_region_points(self)->np.array(float):
         """
         Generates the data randomly according to the configs
-        file
+        file with a uniform law.
+
+        Return:
+        np.array(float) : Set of points that will be used to
+        determine the centroids of the regions
         """
         n_rows = 1000 * self.configs["number_of_individuals"]
         n_columns = self.configs["number_dimension"]
@@ -31,18 +41,19 @@ class Generate_Region:
         )
         return data_generated
 
-    def compute_centroid(self, data_points):
+    def compute_centroid(self, data_points)->np.array(float):
         """
         The goal of this function is to determine  each cluster zone of
         influence that will then be used to compute the centroids. Points are generated
         randomly and attributed to nearest cluster's appartenance points.
-        Regions emerging from this operation are then used to compute centroid
+        Regions emerging from this operation are then used to compute barycentre
 
         Args:
-        data_points: np.array(): The original points with attributed clusters at a cetrain step
+        data_points: np.array(float): The original points with attributed clusters at a cetrain step
 
         Return:
-        np.array() with the centroids of each clusters"""
+        np.array(float) with the centroids of each clusters
+        """
         data_region = self.initiate_region_points()
         clusters = data_points[:, -1]
         data_points = data_points[:, :-1]
@@ -50,5 +61,4 @@ class Generate_Region:
         attributed_regions = clusters[closest_points]
         data_region = np.column_stack((data_region, attributed_regions))
         unique_centroids = np.unique(clusters)
-        print(data_region)
         return data_region

@@ -3,9 +3,16 @@ import sys
 import os
 current_dir=os.getcwd()
 
-def main():
+def main()->None:
     """
-    Function to have the logs being written at the root"""
+    The goal of this function is to have the logs being 
+    written at the root when the algorithm is launched.
+    The logs are saved under the path src/logs/logs.log
+
+    Args: None 
+
+    Return: None
+    """
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
     formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")

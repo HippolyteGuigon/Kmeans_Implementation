@@ -1,4 +1,3 @@
-# coding=utf-8
 import argparse
 import logging
 import logging.handlers
@@ -22,7 +21,18 @@ type=str)
 
 args=parser.parse_args()
 
-def model_launch():
+def model_launch()->None:
+    """
+    The goal of this function is to launch 
+    the all model pipeline and cluster the points
+    entered as input
+
+    Args: 
+        None 
+
+    Return: 
+        None
+    """
     model = Model()
     logger.info(f"Model Charged {args.Name}")
     model.generate_initial_K()
