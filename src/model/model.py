@@ -22,12 +22,13 @@ class Model(Data_Generator, Generate_Region):
         self,
         path_config_model="configs/model_params.yml",
         path_config_file="configs/data_params.yml",
+        randomly_generated_data=True,
     ):
 
         self.configs = load_conf(path_config_file)
         self.configs_model = load_conf(path_config_model)
         self.K = self.configs_model["K"]
-        self.data = super().generate_data()
+        self.data = super().generate_data(random=randomly_generated_data)
         self.data_region = super().initiate_region_points()
         self.generate_region = Generate_Region()
 

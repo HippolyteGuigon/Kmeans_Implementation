@@ -22,7 +22,7 @@ class Data_Generator:
         self.configs = load_conf(path_config)
         self.configs_model = load_conf(path_config_model)
 
-    def generate_data(self) -> np.array:
+    def generate_data(self,random=True) -> np.array:
         """
         Generates the data randomly according to the configs
         file
@@ -33,13 +33,18 @@ class Data_Generator:
         Returns:
             -data_generated : np.array(float): Data randomly-generated
         """
-        n_rows = self.configs["number_of_individuals"]
-        n_columns = self.configs["number_dimension"]
-        lim_min = self.configs["limit_min"]
-        lim_max = self.configs["limit_max"]
-        data_generated = np.random.uniform(
-            low=lim_min, high=lim_max, size=(n_rows, n_columns)
-        )
+        if random:
+            n_rows = self.configs["number_of_individuals"]
+            n_columns = self.configs["number_dimension"]
+            lim_min = self.configs["limit_min"]
+            lim_max = self.configs["limit_max"]
+            data_generated = np.random.uniform(
+                low=lim_min, high=lim_max, size=(n_rows, n_columns)
+            )
+
+        else:
+            data_generated=np.load("data/data_to_cluster.npy")
+            
         return data_generated
 
     def save_data(self) -> None:

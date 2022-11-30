@@ -21,6 +21,10 @@ parser.add_argument(
     type=str,
 )
 
+parser.add_argument("data_type",
+help="The kind of data to be clustered. If you want a random set of data to be clustered,enter random, else enter own_data",
+type=str)
+
 args = parser.parse_args()
 
 
@@ -36,7 +40,10 @@ def model_launch() -> None:
     Return:
         None
     """
-    model = Model()
+    if args.data_type=="random":
+        model = Model()
+    elif args.data_type=="own_data":
+        model = Model(randomly_generated_data=False)
     logger.info(f"Model Charged {args.Name}")
     model.generate_initial_K()
     logger.info(f"Initial centroïds initialized {args.Name}")
