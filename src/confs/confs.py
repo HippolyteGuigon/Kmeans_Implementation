@@ -7,10 +7,10 @@ def load_conf(path: str) -> yaml:
     params
 
     Arguments:
-        path: str The path of configuration file to be loaded
+        -path: str The path of configuration file to be loaded
 
     Returns:
-        file: yaml file The configuration file loaded
+        -file: yaml file The configuration file loaded
     """
     with open(path, "r") as ymlfile:
         file = yaml.safe_load(ymlfile)

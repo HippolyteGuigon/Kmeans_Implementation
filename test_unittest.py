@@ -3,6 +3,7 @@ from src.data_generator.data_generator import Data_Generator
 from src.model.model import Model
 from src.confs.confs import load_conf
 import numpy as np
+
 test = Data_Generator()
 model_test = Model()
 
@@ -17,6 +18,17 @@ class Test(unittest.TestCase):
     """
 
     def test_generated_data(self):
+        """
+        The goal of this test is to check if randomly-generated
+        data have the appropriate dimension as entered by the user
+        in the config file
+
+        Arguments:
+            None
+
+        Returns:
+            -bool: True or False
+        """
         test_data = test.generate_data()
 
         n_rows = configs["number_of_individuals"]
@@ -30,29 +42,62 @@ class Test(unittest.TestCase):
         self.assertLessEqual(test_data.max(), lim_max)
 
     def test_initial_centroids(self):
+        """
+        The goal of this test function is checking if the centroids
+        generated have the appropriate dimensions compared to the
+        generated-data
+
+        Arguments:
+            None
+
+        Returns:
+            -bool: True or False
+        """
         test_centroid = model_test.generate_initial_K()
         model_test.first_attribution()
         self.assertEqual(test_centroid.shape[0], configs_model["K"])
         self.assertEqual(test_centroid.shape[1], configs["number_dimension"])
 
     def test_manual_entrance_centroids(self):
+        """
+        The goal of this test-function is checking if the full KMeans
+        pipeline works when clusters are entered manually by the user
+
+        Arguments:
+            None
+
+        Returns:
+            -bool: True or False
+        """
         n_columns = configs["number_dimension"]
         K = configs_model["K"]
-        
+
         try:
-            model_test.generate_initial_K(False,np.random.uniform(size=(K,n_columns)))
+            model_test.generate_initial_K(False, np.random.uniform(size=(K, n_columns)))
             model_test.first_attribution()
             model_test.launch_iteration()
         except:
             self.fail("Error detected")
-    
+
     def test_full_pipeline(self):
+        """
+        The goal of this test-function is checking if the full KMeans
+        pipeline works when centroids are randomly generated and not
+        chosen by the user
+
+        Arguments:
+            None
+
+        Returns:
+            -bool: True or False
+        """
         try:
             model_test.generate_initial_K()
             model_test.first_attribution()
             model_test.launch_iteration()
         except:
             self.fail("Error detected")
+
 
 if __name__ == "__main__":
     unittest.main()

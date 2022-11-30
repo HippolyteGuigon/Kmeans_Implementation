@@ -11,9 +11,11 @@ def main() -> None:
     written at the root when the algorithm is launched.
     The logs are saved under the path src/logs/logs.log
 
-    Args: None
+    Arguments:
+        None
 
-    Return: None
+    Returns:
+        None
     """
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)

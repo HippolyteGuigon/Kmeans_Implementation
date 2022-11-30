@@ -33,8 +33,9 @@ class Generate_Region:
             None
 
         Returns:
-            np.array(float) : Set of points that will be used to
-            determine the centroids of the regions
+            -data_generated : np.array(float) : Set of points
+            that will be used to determine the centroids of
+            the regions
         """
         n_rows = 1000 * self.configs["number_of_individuals"]
         n_columns = self.configs["number_dimension"]
@@ -53,11 +54,11 @@ class Generate_Region:
         Regions emerging from this operation are then used to compute barycentre
 
         Arguments:
-            data_points: np.array(float): The original points with attributed
+            -data_points: np.array(float): The original points with attributed
             clusters at a cetrain step
 
         Returns:
-            new_centroids_coordinates: np.array(float) with the coordinates of
+            -new_centroids_coordinates: np.array(float) with the coordinates of
             new-computed centroids
         """
         data_region = self.initiate_region_points()
