@@ -31,16 +31,19 @@ class Model(Data_Generator, Generate_Region):
         self.data_region = super().initiate_region_points()
         self.generate_region = Generate_Region()
 
-    def generate_initial_K(self,random_initialisation=True) -> np.array(float):
+    def generate_initial_K(self,random_initialisation=True,*args) -> np.array(float):
         """
         The goal of this function is to initialize K centroids
         randomly that will be then used to allocate points between
         the different clusters
 
         Arguments:
-            -random_initialisation: bool or array: If True, initial_K are generated
+            -random_initialisation: bool : If True, initial_K are generated
             randomly, else, the user must enter an np.array(float) containing
-            the coordinates wished as initial cluster
+            the coordinates wished as initial cluster.
+            -args : np.array(float): If random_initialisation is False, then 
+            args corresponds to the initial cluster coordinates entered by the 
+            user.
 
         Returns:
             -initial_coordinates: np.array(float): The coordinates of the
@@ -57,7 +60,14 @@ class Model(Data_Generator, Generate_Region):
             return self.initial_coordinates
 
         else:
-            self.initial_coordinates=random_initialisation
+        
+            initial_coordinates=args[0]
+            K=self.configs_model["K"]
+            dimension=self.configs["number_dimension"]
+            if initial_coordinates.shape[0]!=K or initial_coordinates.shape[1]!=dimension:
+                raise ValueError(f"The shapes of entered cluster must be [{K},{dimension}]")
+            return initial_coordinates
+        
 
     def first_attribution(self) -> np.array(float):
         """
@@ -69,7 +79,7 @@ class Model(Data_Generator, Generate_Region):
             None
 
         Returns:
-            full_data: np.array(float): Numpy array with the
+            -full_data: np.array(float): Numpy array with the
             original points and a column representing the nearest
             cluster
         """
@@ -86,11 +96,11 @@ class Model(Data_Generator, Generate_Region):
         centroid.
 
         Arguments:
-            centroids: np.array(float): The coordinates of the
+            -centroids: np.array(float): The coordinates of the
             centroids at each step
 
         Returns:
-            full_data: np.array(float): Numpy array with the
+            -full_data: np.array(float): Numpy array with the
             original points and a column representing the nearest
             cluster
         """
@@ -110,7 +120,7 @@ class Model(Data_Generator, Generate_Region):
             None
 
         Returns:
-            current_repartition: np.array(float): The final repartition
+            -current_repartition: np.array(float): The final repartition
             of points among calculated clusters
         """
         self.current_repartition = self.first_attribution()
@@ -138,7 +148,7 @@ class Model(Data_Generator, Generate_Region):
             None
 
         Returns:
-            current_cluster_position: np.array(float): The
+            -current_cluster_position: np.array(float): The
             final cluster positions after iterations have been
             performed.
         """
