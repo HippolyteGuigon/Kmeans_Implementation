@@ -44,7 +44,15 @@ class Test(unittest.TestCase):
             model_test.first_attribution()
             model_test.launch_iteration()
         except:
-            self.fail("myFunc() raised ExceptionType unexpectedly!")
+            self.fail("Error detected")
+    
+    def test_full_pipeline(self):
+        try:
+            model_test.generate_initial_K()
+            model_test.first_attribution()
+            model_test.launch_iteration()
+        except:
+            self.fail("Error detected")
 
 if __name__ == "__main__":
     unittest.main()
