@@ -41,7 +41,7 @@ def model_launch() -> None:
     model.generate_initial_K()
     logger.info(f"Initial centroïds initialized {args.Name}")
     model.first_attribution()
-    logger.info(f"First iteration done {args.Name}")
+    logger.info(f"Model has converged {args.Name}")
 
 
 if __name__ == "__main__":
