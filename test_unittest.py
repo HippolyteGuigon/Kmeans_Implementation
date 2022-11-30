@@ -2,7 +2,7 @@ import unittest
 from src.data_generator.data_generator import Data_Generator
 from src.model.model import Model
 from src.confs.confs import load_conf
-
+import numpy as np
 test = Data_Generator()
 model_test = Model()
 
@@ -35,6 +35,16 @@ class Test(unittest.TestCase):
         self.assertEqual(test_centroid.shape[0], configs_model["K"])
         self.assertEqual(test_centroid.shape[1], configs["number_dimension"])
 
+    def test_manual_entrance_centroids(self):
+        n_columns = configs["number_dimension"]
+        K = configs_model["K"]
+        
+        try:
+            model_test.generate_initial_K(False,np.random.uniform(size=(K,n_columns)))
+            model_test.first_attribution()
+            model_test.launch_iteration()
+        except:
+            self.fail("myFunc() raised ExceptionType unexpectedly!")
 
 if __name__ == "__main__":
     unittest.main()
