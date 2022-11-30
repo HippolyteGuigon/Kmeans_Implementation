@@ -103,32 +103,41 @@ class Model(Data_Generator, Generate_Region):
             None
 
         Returns:
-            current_repartition: np.array(float): The final repartition 
+            current_repartition: np.array(float): The final repartition
             of points among calculated clusters
         """
         self.current_repartition = self.first_attribution()
-        self.current_cluster_position=self.generate_initial_K()
-        while not np.allclose(self.current_cluster_position,self.generate_region.compute_centroid(self.current_repartition),atol=0.5):
-            self.current_repartition=self.cluster_attribution(self.current_cluster_position)
-            self.current_cluster_position=self.generate_region.compute_centroid(self.current_repartition)
+        self.current_cluster_position = self.generate_initial_K()
+        while not np.allclose(
+            self.current_cluster_position,
+            self.generate_region.compute_centroid(self.current_repartition),
+            atol=0.5,
+        ):
+            self.current_repartition = self.cluster_attribution(
+                self.current_cluster_position
+            )
+            self.current_cluster_position = self.generate_region.compute_centroid(
+                self.current_repartition
+            )
         return self.current_repartition
 
-    def get_final_cluster_position(self)->np.array(float):
+    def get_final_cluster_position(self) -> np.array(float):
         """
-        The goal of this function is to return the 
-        final clusters positions after the iterations 
+        The goal of this function is to return the
+        final clusters positions after the iterations
         have been performed
 
         Arguments:
             None
 
         Returns:
-            current_cluster_position: np.array(float): The 
-            final cluster positions after iterations have been 
+            current_cluster_position: np.array(float): The
+            final cluster positions after iterations have been
             performed.
         """
         return self.current_cluster_position
-        
+
+
 a = Model()
 a.generate_initial_K()
 a.first_attribution()
