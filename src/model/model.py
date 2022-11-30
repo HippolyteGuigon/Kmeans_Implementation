@@ -31,26 +31,33 @@ class Model(Data_Generator, Generate_Region):
         self.data_region = super().initiate_region_points()
         self.generate_region = Generate_Region()
 
-    def generate_initial_K(self) -> np.array(float):
+    def generate_initial_K(self,random_initialisation=True) -> np.array(float):
         """
         The goal of this function is to initialize K centroids
         randomly that will be then used to allocate points between
         the different clusters
 
         Arguments:
-            None
+            -random_initialisation: bool or array: If True, initial_K are generated
+            randomly, else, the user must enter an np.array(float) containing
+            the coordinates wished as initial cluster
 
         Returns:
-            initial_coordinates: np.array(float): The coordinates of the
+            -initial_coordinates: np.array(float): The coordinates of the
             K centroids
         """
-        lim_min = self.configs["limit_min"]
-        lim_max = self.configs["limit_max"]
-        initial_cluster_coordinates = np.random.uniform(
-            low=lim_min, high=lim_max, size=(self.K, self.configs["number_dimension"])
-        )
-        self.initial_coordinates = initial_cluster_coordinates
-        return self.initial_coordinates
+
+        if random_initialisation:
+            lim_min = self.configs["limit_min"]
+            lim_max = self.configs["limit_max"]
+            initial_cluster_coordinates = np.random.uniform(
+                low=lim_min, high=lim_max, size=(self.K, self.configs["number_dimension"])
+            )
+            self.initial_coordinates = initial_cluster_coordinates
+            return self.initial_coordinates
+
+        else:
+            self.initial_coordinates=random_initialisation
 
     def first_attribution(self) -> np.array(float):
         """
