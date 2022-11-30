@@ -9,8 +9,9 @@ among which those points will be reparted, K being chosen by the user.
 ## Build Status
 
 For the moment, the KMeans algorithm is ready, but can only be ran on data generated randomly. 
+The user can also manually enter the centroid he wishes for the first iteration.
 Next steps are to allow the user to enter his own data as well as implementing other KMeans 
-classical functionnalities (KMeans ++, Enter manually the first cluster coordinates).
+classical functionnalities (KMeans ++, choose different distances).
 
 If you see any improvements that could be made in the code, do not hesitate to reach out at 
 Hippolyte.guigon@hec.edu
