@@ -8,9 +8,12 @@ among which those points will be reparted, K being chosen by the user.
 
 ## Build Status
 
-For the moment, the project is still being coded, altghouth the first setps are in place.
-You can have the first iteration of the algorithm which allocate the points among the K clusters,
-but not as a final step of the algorithm.
+For the moment, the KMeans algorithm is ready, but can only be ran on data generated randomly. 
+Next steps are to allow the user to enter his own data as well as implementing other KMeans 
+classical functionnalities (KMeans ++, Enter manually the first cluster coordinates).
+
+If you see any improvements that could be made in the code, do not hesitate to reach out at 
+Hippolyte.guigon@hec.edu
 
 ## Code style 
 
