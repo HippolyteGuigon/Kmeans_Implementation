@@ -5,7 +5,7 @@
 #limit_min: int The minimum value a point can take on a dimension
 #limit_max: int The maximum value a point can take on a dimension
 
-number_of_individuals: 1000
+number_of_individuals: 100
 
 number_dimension: 2
 
