@@ -137,7 +137,7 @@ class Test(unittest.TestCase):
         Returns:
             bool: True or False"""
 
-        model=KMeans(randomly_generated_data=False)
+        model=KMeans(randomly_generated_data=True)
         n_rows = configs["number_of_individuals"]
         n_columns = configs["number_dimension"]
         lim_min = configs["limit_min"]
@@ -147,7 +147,7 @@ class Test(unittest.TestCase):
         with self.assertRaises(NotFittedError) as context:
             model.predict(X)
 
-        self.assertTrue('The KMeans model has to be fitted first' in context.exception)
+        self.assertTrue("The KMeans model has to be fitted first" in context.exception)
 
 
 
