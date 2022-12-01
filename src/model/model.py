@@ -121,7 +121,7 @@ class Model(Data_Generator, Generate_Region):
         np.save(self.configs_model["path_save"], full_data)
         return full_data
 
-    def launch_iteration(self) -> np.array(float):
+    def fit(self) -> np.array(float):
         """
         The goal of this function is, at each step of the
         algorithm, to compute the region of influence of each
@@ -161,7 +161,7 @@ class Model(Data_Generator, Generate_Region):
         Returns:
             None
         """
-        self.current_repartition = self.launch_iteration()
+        self.current_repartition = self.fit()
         np.save("data/final_clustered_data.npy", self.current_repartition)
 
     def get_final_cluster_position(self) -> np.array(float):
@@ -180,8 +180,23 @@ class Model(Data_Generator, Generate_Region):
         """
         return self.current_cluster_position
 
+    def labels(self)->np.array(int):
+        """
+        The goal of this function is to return an array 
+        with all the predicted labels after the clustering
+        was performed
+        
+        Arguments:
+            None 
+            
+        Returns:
+            -label: np.array(int): The predicted labels
+        """
+
+        label=self.fit()[:,-1]
+        return label
 
 a = Model()
 a.generate_initial_K()
 a.first_attribution()
-a.launch_iteration()
+a.fit()

@@ -76,7 +76,7 @@ class Test(unittest.TestCase):
         try:
             model_test.generate_initial_K(False, np.random.uniform(size=(K, n_columns)))
             model_test.first_attribution()
-            model_test.launch_iteration()
+            model_test.fit()
         except:
             self.fail("Error detected")
 
@@ -95,7 +95,7 @@ class Test(unittest.TestCase):
         try:
             model_test.generate_initial_K()
             model_test.first_attribution()
-            model_test.launch_iteration()
+            model_test.fit()
         except:
             self.fail("Error detected")
 
