@@ -40,7 +40,7 @@ number of points, number of dimensions) you have to specify them in the followin
   -```configs/model_params.yml```
 
 Then, you have two options:
-- If you want to run the KMeans algorithm with random data, run the following command: ```python run main.py user_name random_```
+- If you want to run the KMeans algorithm with random data, run the following command: ```python run main.py user_name random```
 
 -If you want to cluster your own data, put them under the following path: ```data/data_to_cluster.npy``` and run the following command:  ```python run main.py user_name own_data```
 
