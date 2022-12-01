@@ -163,7 +163,6 @@ class Model(Data_Generator, Generate_Region):
         Returns:
             None
         """
-        self.fit()
         np.save("data/final_clustered_data.npy", self.current_repartition)
 
     def get_final_cluster_position(self) -> np.array(float):

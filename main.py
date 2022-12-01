@@ -53,6 +53,7 @@ def model_launch() -> None:
     model.generate_initial_K()
     logger.info(f"Initial centroïds initialized {args.Name}")
     model.first_attribution()
+    model.fit()
     logger.info(f"Model has converged {args.Name}")
     model.save_final_clustering()
     logger.info(f"Clustering is over and your data has been saved {args.Name}")
