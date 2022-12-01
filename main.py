@@ -41,8 +41,10 @@ def model_launch() -> None:
         None
     """
     if args.data_type=="random":
+        logger.info(f"KMeans will be performed with random data {args.Name}")
         model = Model()
     elif args.data_type=="own_data":
+        logger.info(f"KMeans will be performed with pre-charged data {args.Name}")
         model = Model(randomly_generated_data=False)
     logger.info(f"Model Charged {args.Name}")
     model.generate_initial_K()

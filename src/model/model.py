@@ -32,6 +32,10 @@ class Model(Data_Generator, Generate_Region):
         self.data_region = super().initiate_region_points()
         self.generate_region = Generate_Region()
 
+        if not randomly_generated_data:
+            self.configs["number_of_individuals"]=self.data.shape[0]
+            self.configs["number_dimension"]=self.data.shape[1]
+
     def generate_initial_K(self,random_initialisation=True,*args) -> np.array(float):
         """
         The goal of this function is to initialize K centroids
