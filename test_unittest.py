@@ -100,11 +100,23 @@ class Test(unittest.TestCase):
             self.fail("Error detected")
 
     def test_full_pipeline_own_data(self):
+        """
+        The goal of this test-function is to check that the
+        clustering works with randomly generated data, even if
+        the yml file has not been changed explicitely
+
+        Arguments:
+            None
+
+        Returns:
+            -bool: True or False
+        """
         data_generated = np.random.uniform(
-                low=-1000, high=1000, 
-                size=(np.random.randint(low=1,high=10), np.random.randint(low=1,high=10))
-            )
-        np.save("data/data_to_cluster.npy",data_generated)
+            low=-1000,
+            high=1000,
+            size=(np.random.randint(low=1, high=10), np.random.randint(low=1, high=10)),
+        )
+        np.save("data/data_to_cluster.npy", data_generated)
         try:
             os.system("python main.py Hippolyte own_data")
         except:
