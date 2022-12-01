@@ -4,6 +4,7 @@ from src.model.model import KMeans
 from src.confs.confs import load_conf
 import numpy as np
 import os
+from sklearn.exceptions import NotFittedError
 
 test = Data_Generator()
 
@@ -123,6 +124,31 @@ class Test(unittest.TestCase):
             os.system("python main.py Hippolyte own_data")
         except:
             self.fail("Error detected")
+
+    def test_predict_without_fit(self):
+        """
+        The goal of this function is to check
+        that the predict function of the KMeans 
+        fails if the model is not fitted first.
+        
+        Arguments:
+            None
+            
+        Returns:
+            bool: True or False"""
+
+        model=KMeans(randomly_generated_data=False)
+        n_rows = configs["number_of_individuals"]
+        n_columns = configs["number_dimension"]
+        lim_min = configs["limit_min"]
+        lim_max = configs["limit_max"]
+        X=np.random.uniform(low=lim_min,high=lim_max,size=(n_rows,n_columns))
+
+        with self.assertRaises(NotFittedError) as context:
+            model.predict(X)
+
+        self.assertTrue('The KMeans model has to be fitted first' in context.exception)
+
 
 
 if __name__ == "__main__":
