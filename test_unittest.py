@@ -3,6 +3,7 @@ from src.data_generator.data_generator import Data_Generator
 from src.model.model import Model
 from src.confs.confs import load_conf
 import numpy as np
+import os
 
 test = Data_Generator()
 model_test = Model()
@@ -95,6 +96,17 @@ class Test(unittest.TestCase):
             model_test.generate_initial_K()
             model_test.first_attribution()
             model_test.launch_iteration()
+        except:
+            self.fail("Error detected")
+
+    def test_full_pipeline_own_data(self):
+        data_generated = np.random.uniform(
+                low=-1000, high=1000, 
+                size=(np.random.randint(low=1,high=10), np.random.randint(low=1,high=10))
+            )
+        np.save("data/data_to_cluster.npy",data_generated)
+        try:
+            os.system("python main.py Hippolyte own_data")
         except:
             self.fail("Error detected")
 
