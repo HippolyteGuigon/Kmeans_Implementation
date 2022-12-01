@@ -2,17 +2,20 @@ import numpy as np
 import sys
 import os
 from sklearn.metrics.pairwise import pairwise_distances
+from sklearn.exceptions import NotFittedError
 from src.confs.confs import load_conf
 
 sys.path.insert(0, os.path.join(os.getcwd(), "src/confs"))
 sys.path.insert(0, os.path.join(os.getcwd(), "src/data_generator"))
 sys.path.insert(0, os.path.join(os.getcwd(), "src/iteration"))
+sys.path.insert(0, os.path.join(os.getcwd(), "src/trackcalls"))
 
 from data_generator import Data_Generator
 from iteration import Generate_Region
+from trackcalls import trackcalls
 
 
-class Model(Data_Generator, Generate_Region):
+class KMeans(Data_Generator, Generate_Region):
     """
     The goal of this class is to implement the KMeans
     algorithm step by step
@@ -20,7 +23,7 @@ class Model(Data_Generator, Generate_Region):
     Arguments:
         randomly_generated_data: bool: Initiates data randomly
         or not according to user's choice
-        **kwargs: key, value: The model parameters chosen by the 
+        **kwargs: key, value: The model parameters chosen by the
         user
     """
 
@@ -31,14 +34,16 @@ class Model(Data_Generator, Generate_Region):
         **kwargs,
     ):
 
-        self.dict_params={}
+        self.dict_params = {}
 
         for param, value in kwargs.items():
-            self.dict_params[param]=value
+            self.dict_params[param] = value
         self.configs = load_conf(path_config_file)
         self.configs_model = load_conf(path_config_model)
         self.K = self.configs_model["K"]
-        self.data = super().generate_data(random=self.dict_params["randomly_generated_data"])
+        self.data = super().generate_data(
+            random=self.dict_params["randomly_generated_data"]
+        )
         self.data_region = super().initiate_region_points()
         self.generate_region = Generate_Region()
 
@@ -47,7 +52,7 @@ class Model(Data_Generator, Generate_Region):
             self.configs["number_dimension"] = self.data.shape[1]
             self.configs["limit_min"] = self.data.min()
             self.configs["limit_max"] = self.data.max()
-        
+
     def generate_initial_K(self, random_initialisation=True, *args) -> np.array(float):
         """
         The goal of this function is to initialize K centroids
@@ -90,7 +95,7 @@ class Model(Data_Generator, Generate_Region):
                 raise ValueError(
                     f"The shapes of entered cluster must be [{K},{dimension}]"
                 )
-            self.initial_coordinates=initial_coordinates
+            self.initial_coordinates = initial_coordinates
             return initial_coordinates
 
     def first_attribution(self) -> np.array(float):
@@ -111,7 +116,7 @@ class Model(Data_Generator, Generate_Region):
         cluster_belonging = np.argmin(distances, axis=1)
         full_data = np.column_stack((self.data, cluster_belonging))
         np.save(self.configs_model["path_save"], full_data)
-        self.current_repartition=full_data
+        self.current_repartition = full_data
         return full_data
 
     def cluster_attribution(self, centroids) -> np.array(float):
@@ -135,6 +140,7 @@ class Model(Data_Generator, Generate_Region):
         np.save(self.configs_model["path_save"], full_data)
         return full_data
 
+    @trackcalls
     def fit(self) -> np.array(float):
         """
         The goal of this function is, at each step of the
@@ -149,13 +155,16 @@ class Model(Data_Generator, Generate_Region):
             of points among calculated clusters
         """
         self.current_cluster_position = self.initial_coordinates
-        iter=0
+        iter = 0
 
-        while not np.allclose(
-            self.current_cluster_position,
-            self.generate_region.compute_centroid(self.current_repartition),
-            atol=0.5,
-        ) and iter<self.dict_params["n_iter"]:
+        while (
+            not np.allclose(
+                self.current_cluster_position,
+                self.generate_region.compute_centroid(self.current_repartition),
+                atol=0.5,
+            )
+            and iter < self.dict_params["n_iter"]
+        ):
             self.current_repartition = self.cluster_attribution(
                 self.current_cluster_position
             )
@@ -194,23 +203,55 @@ class Model(Data_Generator, Generate_Region):
         """
         return self.current_cluster_position
 
-    def labels(self)->np.array(int):
+    def labels(self) -> np.array(int):
         """
-        The goal of this function is to return an array 
+        The goal of this function is to return an array
         with all the predicted labels after the clustering
         was performed
-        
+
         Arguments:
-            None 
-            
+            None
+
         Returns:
             -label: np.array(int): The predicted labels
         """
 
-        label=self.current_repartition[:,-1]
+        label = self.current_repartition[:, -1]
         return label
 
-#a = Model()
-#a.generate_initial_K()
-#a.first_attribution()
-#a.fit()
+    def predict(self, X: np.array(float)) -> np.array(float):
+        """
+        The goal of this function is, after the model
+        has been fitted, to predict the cluster appartenance
+        of a set of points X
+
+        Arguments:
+            -X: np.array(float): Set of points to be clustered
+
+        Returns:
+            -clustered_data: np.array(float): The points after
+            clustering was performed"""
+
+        if not self.fit.has_been_called:
+            raise NotFittedError("The KMeans model has to be fitted first")
+
+        if X.shape[1] != self.configs["number_dimension"]:
+            raise ValueError(
+                f"The data to be clustered has to be of dimension (,{self.configs['number_dimension']})"
+            )
+
+        distances = pairwise_distances(X, self.current_cluster_position)
+        cluster_belonging = np.argmin(distances, axis=1)
+        clustered_data = np.column_stack((X, cluster_belonging))
+        return clustered_data
+
+    def get_params(self) -> dict[str]:
+        """
+        This function returns the params chosen by the
+        user.
+
+        Arguments:
+            None
+
+        """
+        return self.dict_params

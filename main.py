@@ -6,7 +6,7 @@ import numpy as np
 
 sys.path.insert(0, "src/logs")
 sys.path.insert(0, "src/model")
-from model import Model
+from model import KMeans
 from logs import main
 
 logger = logging.getLogger()
@@ -45,19 +45,21 @@ def model_launch() -> None:
     """
     if args.data_type == "random":
         logger.info(f"KMeans will be performed with random data {args.Name}")
-        model = Model(n_iter=5,randomly_generated_data=True)
+        model = KMeans(n_iter=5, randomly_generated_data=True)
     elif args.data_type == "own_data":
         logger.info(f"KMeans will be performed with pre-charged data {args.Name}")
-        model = Model(n_iter=5,randomly_generated_data=False)
+        model = KMeans(n_iter=5, randomly_generated_data=False)
     logger.info(f"Model Charged {args.Name}")
-    model.generate_initial_K(False,np.array([[0, 0], [30,30], [60,60]]))
+    model.generate_initial_K(False, np.array([[0, 0], [30, 30], [60, 60]]))
     logger.info(f"Initial centroïds initialized {args.Name}")
     model.first_attribution()
     model.fit()
     logger.info(f"Model has converged {args.Name}")
     model.save_final_clustering()
     logger.info(f"Clustering is over and your data has been saved {args.Name}")
-    np.save("data/final_cluster_position.npy",model.get_final_cluster_position())
+    np.save("data/final_cluster_position.npy", model.get_final_cluster_position())
+    print(model.get_params())
+
 
 if __name__ == "__main__":
     model_launch()
