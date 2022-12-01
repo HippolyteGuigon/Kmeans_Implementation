@@ -45,10 +45,10 @@ def model_launch() -> None:
     """
     if args.data_type == "random":
         logger.info(f"KMeans will be performed with random data {args.Name}")
-        model = Model()
+        model = Model(n_iter=5,randomly_generated_data=True)
     elif args.data_type == "own_data":
         logger.info(f"KMeans will be performed with pre-charged data {args.Name}")
-        model = Model(randomly_generated_data=False)
+        model = Model(n_iter=5,randomly_generated_data=False)
     logger.info(f"Model Charged {args.Name}")
     model.generate_initial_K(False,np.array([[0, 0], [30,30], [60,60]]))
     logger.info(f"Initial centroïds initialized {args.Name}")

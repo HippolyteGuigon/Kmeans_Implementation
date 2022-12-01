@@ -16,28 +16,38 @@ class Model(Data_Generator, Generate_Region):
     """
     The goal of this class is to implement the KMeans
     algorithm step by step
+
+    Arguments:
+        randomly_generated_data: bool: Initiates data randomly
+        or not according to user's choice
+        **kwargs: key, value: The model parameters chosen by the 
+        user
     """
 
     def __init__(
         self,
         path_config_model="configs/model_params.yml",
         path_config_file="configs/data_params.yml",
-        randomly_generated_data=True,
+        **kwargs,
     ):
 
+        self.dict_params={}
+
+        for param, value in kwargs.items():
+            self.dict_params[param]=value
         self.configs = load_conf(path_config_file)
         self.configs_model = load_conf(path_config_model)
         self.K = self.configs_model["K"]
-        self.data = super().generate_data(random=randomly_generated_data)
+        self.data = super().generate_data(random=self.dict_params["randomly_generated_data"])
         self.data_region = super().initiate_region_points()
         self.generate_region = Generate_Region()
 
-        if not randomly_generated_data:
+        if not self.dict_params["randomly_generated_data"]:
             self.configs["number_of_individuals"] = self.data.shape[0]
             self.configs["number_dimension"] = self.data.shape[1]
             self.configs["limit_min"] = self.data.min()
             self.configs["limit_max"] = self.data.max()
-
+        
     def generate_initial_K(self, random_initialisation=True, *args) -> np.array(float):
         """
         The goal of this function is to initialize K centroids
@@ -139,11 +149,13 @@ class Model(Data_Generator, Generate_Region):
             of points among calculated clusters
         """
         self.current_cluster_position = self.initial_coordinates
+        iter=0
+
         while not np.allclose(
             self.current_cluster_position,
             self.generate_region.compute_centroid(self.current_repartition),
             atol=0.5,
-        ):
+        ) and iter<self.dict_params["n_iter"]:
             self.current_repartition = self.cluster_attribution(
                 self.current_cluster_position
             )
@@ -198,7 +210,7 @@ class Model(Data_Generator, Generate_Region):
         label=self.current_repartition[:,-1]
         return label
 
-a = Model()
-a.generate_initial_K()
-a.first_attribution()
-a.fit()
+#a = Model()
+#a.generate_initial_K()
+#a.first_attribution()
+#a.fit()
