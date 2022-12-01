@@ -21,9 +21,11 @@ parser.add_argument(
     type=str,
 )
 
-parser.add_argument("data_type",
-help="The kind of data to be clustered. If you want a random set of data to be clustered,enter random, else enter own_data",
-type=str)
+parser.add_argument(
+    "data_type",
+    help="The kind of data to be clustered. If you want a random set of data to be clustered,enter random, else enter own_data",
+    type=str,
+)
 
 args = parser.parse_args()
 
@@ -40,10 +42,10 @@ def model_launch() -> None:
     Return:
         None
     """
-    if args.data_type=="random":
+    if args.data_type == "random":
         logger.info(f"KMeans will be performed with random data {args.Name}")
         model = Model()
-    elif args.data_type=="own_data":
+    elif args.data_type == "own_data":
         logger.info(f"KMeans will be performed with pre-charged data {args.Name}")
         model = Model(randomly_generated_data=False)
     logger.info(f"Model Charged {args.Name}")
@@ -51,6 +53,8 @@ def model_launch() -> None:
     logger.info(f"Initial centroïds initialized {args.Name}")
     model.first_attribution()
     logger.info(f"Model has converged {args.Name}")
+    model.save_final_clustering()
+    logger.info(f"Clustering is over and your data has been saved {args.Name}")
 
 
 if __name__ == "__main__":

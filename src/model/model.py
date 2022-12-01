@@ -33,10 +33,10 @@ class Model(Data_Generator, Generate_Region):
         self.generate_region = Generate_Region()
 
         if not randomly_generated_data:
-            self.configs["number_of_individuals"]=self.data.shape[0]
-            self.configs["number_dimension"]=self.data.shape[1]
+            self.configs["number_of_individuals"] = self.data.shape[0]
+            self.configs["number_dimension"] = self.data.shape[1]
 
-    def generate_initial_K(self,random_initialisation=True,*args) -> np.array(float):
+    def generate_initial_K(self, random_initialisation=True, *args) -> np.array(float):
         """
         The goal of this function is to initialize K centroids
         randomly that will be then used to allocate points between
@@ -46,8 +46,8 @@ class Model(Data_Generator, Generate_Region):
             -random_initialisation: bool : If True, initial_K are generated
             randomly, else, the user must enter an np.array(float) containing
             the coordinates wished as initial cluster.
-            -args : np.array(float): If random_initialisation is False, then 
-            args corresponds to the initial cluster coordinates entered by the 
+            -args : np.array(float): If random_initialisation is False, then
+            args corresponds to the initial cluster coordinates entered by the
             user.
 
         Returns:
@@ -59,20 +59,26 @@ class Model(Data_Generator, Generate_Region):
             lim_min = self.configs["limit_min"]
             lim_max = self.configs["limit_max"]
             initial_cluster_coordinates = np.random.uniform(
-                low=lim_min, high=lim_max, size=(self.K, self.configs["number_dimension"])
+                low=lim_min,
+                high=lim_max,
+                size=(self.K, self.configs["number_dimension"]),
             )
             self.initial_coordinates = initial_cluster_coordinates
             return self.initial_coordinates
 
         else:
-        
-            initial_coordinates=args[0]
-            K=self.configs_model["K"]
-            dimension=self.configs["number_dimension"]
-            if initial_coordinates.shape[0]!=K or initial_coordinates.shape[1]!=dimension:
-                raise ValueError(f"The shapes of entered cluster must be [{K},{dimension}]")
+
+            initial_coordinates = args[0]
+            K = self.configs_model["K"]
+            dimension = self.configs["number_dimension"]
+            if (
+                initial_coordinates.shape[0] != K
+                or initial_coordinates.shape[1] != dimension
+            ):
+                raise ValueError(
+                    f"The shapes of entered cluster must be [{K},{dimension}]"
+                )
             return initial_coordinates
-        
 
     def first_attribution(self) -> np.array(float):
         """
@@ -92,6 +98,7 @@ class Model(Data_Generator, Generate_Region):
         cluster_belonging = np.argmin(distances, axis=1)
         full_data = np.column_stack((self.data, cluster_belonging))
         np.save(self.configs_model["path_save"], full_data)
+        self.current_repartition=full_data
         return full_data
 
     def cluster_attribution(self, centroids) -> np.array(float):
@@ -115,7 +122,7 @@ class Model(Data_Generator, Generate_Region):
         np.save(self.configs_model["path_save"], full_data)
         return full_data
 
-    def launch_iteration(self) -> np.array(float):
+    def fit(self) -> np.array(float):
         """
         The goal of this function is, at each step of the
         algorithm, to compute the region of influence of each
@@ -128,8 +135,7 @@ class Model(Data_Generator, Generate_Region):
             -current_repartition: np.array(float): The final repartition
             of points among calculated clusters
         """
-        self.current_repartition = self.first_attribution()
-        self.current_cluster_position = self.generate_initial_K()
+        self.current_cluster_position = self.initial_coordinates
         while not np.allclose(
             self.current_cluster_position,
             self.generate_region.compute_centroid(self.current_repartition),
@@ -142,6 +148,20 @@ class Model(Data_Generator, Generate_Region):
                 self.current_repartition
             )
         return self.current_repartition
+
+    def save_final_clustering(self) -> None:
+        """
+        The goal of this function is, after having launched
+        the iteration, to save the final clustering for the
+        final user.
+
+        Arguments:
+            None
+
+        Returns:
+            None
+        """
+        np.save("data/final_clustered_data.npy", self.current_repartition)
 
     def get_final_cluster_position(self) -> np.array(float):
         """
@@ -159,8 +179,23 @@ class Model(Data_Generator, Generate_Region):
         """
         return self.current_cluster_position
 
+    def labels(self)->np.array(int):
+        """
+        The goal of this function is to return an array 
+        with all the predicted labels after the clustering
+        was performed
+        
+        Arguments:
+            None 
+            
+        Returns:
+            -label: np.array(int): The predicted labels
+        """
+
+        label=self.current_repartition[:,-1]
+        return label
 
 a = Model()
 a.generate_initial_K()
 a.first_attribution()
-a.launch_iteration()
+a.fit()
