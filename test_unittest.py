@@ -6,7 +6,6 @@ import numpy as np
 import os
 
 test = Data_Generator()
-model_test = Model()
 
 configs = load_conf("configs/data_params.yml")
 configs_model = load_conf("configs/model_params.yml")
@@ -54,6 +53,7 @@ class Test(unittest.TestCase):
         Returns:
             -bool: True or False
         """
+        model_test = Model(randomly_generated_data=True,n_iter=10)
         test_centroid = model_test.generate_initial_K()
         model_test.first_attribution()
         self.assertEqual(test_centroid.shape[0], configs_model["K"])
@@ -74,6 +74,7 @@ class Test(unittest.TestCase):
         K = configs_model["K"]
 
         try:
+            model_test = Model(randomly_generated_data=True,n_iter=10)
             model_test.generate_initial_K(False, np.random.uniform(size=(K, n_columns)))
             model_test.first_attribution()
             model_test.fit()
@@ -93,6 +94,7 @@ class Test(unittest.TestCase):
             -bool: True or False
         """
         try:
+            model_test = Model(randomly_generated_data=True,n_iter=10)
             model_test.generate_initial_K()
             model_test.first_attribution()
             model_test.fit()
