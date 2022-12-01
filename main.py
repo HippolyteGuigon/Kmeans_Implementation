@@ -50,7 +50,7 @@ def model_launch() -> None:
         logger.info(f"KMeans will be performed with pre-charged data {args.Name}")
         model = Model(randomly_generated_data=False)
     logger.info(f"Model Charged {args.Name}")
-    model.generate_initial_K()
+    model.generate_initial_K(False,np.array([[0, 0], [30,30], [60,60]]))
     logger.info(f"Initial centroïds initialized {args.Name}")
     model.first_attribution()
     model.fit()

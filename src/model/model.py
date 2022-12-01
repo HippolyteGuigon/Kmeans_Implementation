@@ -80,6 +80,7 @@ class Model(Data_Generator, Generate_Region):
                 raise ValueError(
                     f"The shapes of entered cluster must be [{K},{dimension}]"
                 )
+            self.initial_coordinates=initial_coordinates
             return initial_coordinates
 
     def first_attribution(self) -> np.array(float):
