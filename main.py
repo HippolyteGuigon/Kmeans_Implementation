@@ -2,6 +2,7 @@ import argparse
 import logging
 import logging.handlers
 import sys
+import numpy as np
 
 sys.path.insert(0, "src/logs")
 sys.path.insert(0, "src/model")
@@ -55,7 +56,7 @@ def model_launch() -> None:
     logger.info(f"Model has converged {args.Name}")
     model.save_final_clustering()
     logger.info(f"Clustering is over and your data has been saved {args.Name}")
-
+    np.save("data/final_cluster_position.npy",model.get_final_cluster_position())
 
 if __name__ == "__main__":
     model_launch()

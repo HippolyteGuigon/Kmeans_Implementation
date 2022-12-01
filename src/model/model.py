@@ -35,6 +35,8 @@ class Model(Data_Generator, Generate_Region):
         if not randomly_generated_data:
             self.configs["number_of_individuals"] = self.data.shape[0]
             self.configs["number_dimension"] = self.data.shape[1]
+            self.configs["limit_min"] = self.data.min()
+            self.configs["limit_max"] = self.data.max()
 
     def generate_initial_K(self, random_initialisation=True, *args) -> np.array(float):
         """
@@ -161,6 +163,7 @@ class Model(Data_Generator, Generate_Region):
         Returns:
             None
         """
+        self.fit()
         np.save("data/final_clustered_data.npy", self.current_repartition)
 
     def get_final_cluster_position(self) -> np.array(float):
