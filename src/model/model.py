@@ -98,6 +98,7 @@ class Model(Data_Generator, Generate_Region):
         cluster_belonging = np.argmin(distances, axis=1)
         full_data = np.column_stack((self.data, cluster_belonging))
         np.save(self.configs_model["path_save"], full_data)
+        self.current_repartition=full_data
         return full_data
 
     def cluster_attribution(self, centroids) -> np.array(float):
@@ -134,8 +135,7 @@ class Model(Data_Generator, Generate_Region):
             -current_repartition: np.array(float): The final repartition
             of points among calculated clusters
         """
-        self.current_repartition = self.first_attribution()
-        self.current_cluster_position = self.generate_initial_K()
+        self.current_cluster_position = self.initial_coordinates
         while not np.allclose(
             self.current_cluster_position,
             self.generate_region.compute_centroid(self.current_repartition),
@@ -161,7 +161,6 @@ class Model(Data_Generator, Generate_Region):
         Returns:
             None
         """
-        self.current_repartition = self.fit()
         np.save("data/final_clustered_data.npy", self.current_repartition)
 
     def get_final_cluster_position(self) -> np.array(float):
@@ -193,7 +192,7 @@ class Model(Data_Generator, Generate_Region):
             -label: np.array(int): The predicted labels
         """
 
-        label=self.fit()[:,-1]
+        label=self.current_repartition[:,-1]
         return label
 
 a = Model()
