@@ -8,8 +8,7 @@ among which those points will be reparted, K being chosen by the user.
 
 ## Build Status
 
-For the moment, the KMeans algorithm is ready, but can only be ran on data generated randomly. 
-The user can also manually enter the centroid he wishes for the first iteration.
+For the moment, the KMeans algorithm is ready, and you can choose between clustering your own imported data on run the all Pipeline on randomly generated data. The user can also manually enter the centroid he wishes for the first iteration.
 Next steps are to allow the user to enter his own data as well as implementing other KMeans 
 classical functionnalities (KMeans ++, choose different distances).
 
@@ -42,6 +41,6 @@ number of points, number of dimensions) you have to specify them in the followin
 Then, you have two options:
 - If you want to run the KMeans algorithm with random data, run the following command: ```python run main.py user_name random```
 
--If you want to cluster your own data, put them under the following path: ```data/data_to_cluster.npy``` and run the following command:  ```python run main.py user_name own_data```
+- If you want to cluster your own data, put them under the following path: ```data/data_to_cluster.npy``` and run the following command:  ```python run main.py user_name own_data```
 
 In both cases, you'll find your clustered data under the following path: ```data/final_clustered_data.npy``` and the centroids under the path ```data/final_cluster_position.npy```
