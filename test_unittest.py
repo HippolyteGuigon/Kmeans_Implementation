@@ -143,9 +143,7 @@ class Test(unittest.TestCase):
         lim_min = configs["limit_min"]
         lim_max = configs["limit_max"]
         X=np.random.uniform(low=lim_min,high=lim_max,size=(n_rows,n_columns))
-        with self.assertRaises((NotFittedError,AttributeError)) as context:
-            model.predict(X)
-        self.assertTrue("'KMeans' object has no attribute 'current_cluster_position'" in context.exception)
+        self.assertRaises(AttributeError,model.predict,"'KMeans' object has no attribute 'current_cluster_position'") 
 
 
 
