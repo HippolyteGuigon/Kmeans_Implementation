@@ -5,7 +5,7 @@ import os
 sys.path.insert(0, os.path.join(os.getcwd(), "src/confs"))
 from confs import load_conf
 from scipy import spatial
-
+import json
 
 class Generate_Region:
     """
@@ -19,11 +19,13 @@ class Generate_Region:
         self,
         path_config_model="configs/model_params.yml",
         path_config_file="configs/data_params.yml",
+        path_final_params="configs/final_params.json"
     ):
 
         self.configs = load_conf(path_config_file)
         self.configs_model = load_conf(path_config_model)
-
+        f=open(path_final_params)
+        self.final_params=json.load(f)
     def initiate_region_points(self) -> np.array(float):
         """
         Generates the data randomly according to the configs
@@ -69,7 +71,7 @@ class Generate_Region:
         data_region = np.column_stack((data_region, attributed_regions))
         unique_centroids = np.unique(clusters)
         new_centroids_coordinates = np.zeros(
-            shape=(self.configs_model["K"], self.configs["number_dimension"])
+            shape=(self.final_params["n_clusters"], self.configs["number_dimension"])
         )
 
         for i, centroid in enumerate(unique_centroids):
