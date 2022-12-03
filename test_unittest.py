@@ -55,10 +55,11 @@ class Test(unittest.TestCase):
         Returns:
             -bool: True or False
         """
-        model_test = KMeans(randomly_generated_data=True, n_iter=10)
+        model_test = KMeans(randomly_generated_data=True, max_iter=10)
+        K=model_test.get_params()["n_clusters"]
         test_centroid = model_test.generate_initial_K()
         model_test.first_attribution()
-        self.assertEqual(test_centroid.shape[0], configs_model["K"])
+        self.assertEqual(test_centroid.shape[0], K)
         self.assertEqual(test_centroid.shape[1], configs["number_dimension"])
 
     def test_manual_entrance_centroids(self):
@@ -73,10 +74,11 @@ class Test(unittest.TestCase):
             -bool: True or False
         """
         n_columns = configs["number_dimension"]
-        K = configs_model["K"]
+        
 
         try:
-            model_test = KMeans(randomly_generated_data=True, n_iter=10)
+            model_test = KMeans(randomly_generated_data=True, max_iter=10)
+            K = model_test.get_params()["n_clusters"]
             model_test.generate_initial_K(False, np.random.uniform(size=(K, n_columns)))
             model_test.first_attribution()
             model_test.fit()
@@ -96,7 +98,7 @@ class Test(unittest.TestCase):
             -bool: True or False
         """
         try:
-            model_test = KMeans(randomly_generated_data=True, n_iter=10)
+            model_test = KMeans(randomly_generated_data=True, max_iter=10)
             model_test.generate_initial_K()
             model_test.first_attribution()
             model_test.fit()
@@ -162,7 +164,7 @@ class Test(unittest.TestCase):
             bool: True or False
         """
 
-        model=KMeans(randomly_generated_data=True,n_iter=5)
+        model=KMeans(randomly_generated_data=True,max_iter=5)
         model.generate_initial_K()
         model.first_attribution()
         model.fit()
@@ -173,5 +175,6 @@ class Test(unittest.TestCase):
         except:
             self.fail("Error detected")
 
+    #def test_default_parameters(self):
 if __name__ == "__main__":
     unittest.main()

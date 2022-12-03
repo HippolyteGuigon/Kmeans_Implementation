@@ -1,0 +1,13 @@
+n_clusters: 8
+
+max_iter: 300
+
+tol: 0.0001
+
+verbose: 0
+
+random_state: None
+
+copy_x: True 
+
+algorithm: "lloyd"

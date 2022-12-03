@@ -3,7 +3,8 @@ import sys
 import os
 from sklearn.metrics.pairwise import pairwise_distances
 from sklearn.exceptions import NotFittedError
-from src.confs.confs import load_conf
+from src.confs.confs import load_conf,load_default_params
+import json
 
 sys.path.insert(0, os.path.join(os.getcwd(), "src/confs"))
 sys.path.insert(0, os.path.join(os.getcwd(), "src/data_generator"))
@@ -38,9 +39,15 @@ class KMeans(Data_Generator, Generate_Region):
 
         for param, value in kwargs.items():
             self.dict_params[param] = value
+
+        self.dict_params=load_default_params(self.dict_params)
+
+        with open("configs/final_params.json",'w') as fp:
+            json.dump(self.dict_params,fp)
+
         self.configs = load_conf(path_config_file)
         self.configs_model = load_conf(path_config_model)
-        self.K = self.configs_model["K"]
+        self.K = self.dict_params["n_clusters"]
         self.data = super().generate_data(
             random=self.dict_params["randomly_generated_data"]
         )
@@ -86,7 +93,7 @@ class KMeans(Data_Generator, Generate_Region):
         else:
 
             initial_coordinates = args[0]
-            K = self.configs_model["K"]
+            K = self.dict_params["n_clusters"]
             dimension = self.configs["number_dimension"]
             if (
                 initial_coordinates.shape[0] != K
@@ -163,7 +170,7 @@ class KMeans(Data_Generator, Generate_Region):
                 self.generate_region.compute_centroid(self.current_repartition),
                 atol=0.5,
             )
-            and iter < self.dict_params["n_iter"]
+            and iter < self.dict_params["max_iter"]
         ):
             self.current_repartition = self.cluster_attribution(
                 self.current_cluster_position
