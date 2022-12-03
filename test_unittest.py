@@ -5,12 +5,12 @@ from src.confs.confs import load_conf
 import numpy as np
 import os
 from sklearn.exceptions import NotFittedError
+import sys 
 
 test = Data_Generator()
 
 configs = load_conf("configs/data_params.yml")
 configs_model = load_conf("configs/model_params.yml")
-
 
 class Test(unittest.TestCase):
     """
@@ -136,18 +136,16 @@ class Test(unittest.TestCase):
             
         Returns:
             bool: True or False"""
-
         model=KMeans(randomly_generated_data=True)
+        
         n_rows = configs["number_of_individuals"]
         n_columns = configs["number_dimension"]
         lim_min = configs["limit_min"]
         lim_max = configs["limit_max"]
         X=np.random.uniform(low=lim_min,high=lim_max,size=(n_rows,n_columns))
-
-        with self.assertRaises(NotFittedError) as context:
+        with self.assertRaises((NotFittedError,AttributeError)) as context:
             model.predict(X)
-
-        self.assertTrue("The KMeans model has to be fitted first" in context.exception)
+        self.assertTrue("'KMeans' object has no attribute 'current_cluster_position'" in context.exception)
 
 
 
