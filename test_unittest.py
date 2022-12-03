@@ -5,12 +5,13 @@ from src.confs.confs import load_conf
 import numpy as np
 import os
 from sklearn.exceptions import NotFittedError
-import sys 
+import sys
 
 test = Data_Generator()
 
 configs = load_conf("configs/data_params.yml")
 configs_model = load_conf("configs/model_params.yml")
+
 
 class Test(unittest.TestCase):
     """
@@ -128,24 +129,49 @@ class Test(unittest.TestCase):
     def test_predict_without_fit(self):
         """
         The goal of this function is to check
-        that the predict function of the KMeans 
+        that the predict function of the KMeans
         fails if the model is not fitted first.
+
+        Arguments:
+            None
+
+        Returns:
+            bool: True or False"""
+        model = KMeans(randomly_generated_data=True)
+
+        n_rows = configs["number_of_individuals"]
+        n_columns = configs["number_dimension"]
+        lim_min = configs["limit_min"]
+        lim_max = configs["limit_max"]
+        X = np.random.uniform(low=lim_min, high=lim_max, size=(n_rows, n_columns))
+        self.assertRaises(
+            AttributeError,
+            model.predict,
+            "'KMeans' object has no attribute 'current_cluster_position'",
+        )
+
+    def test_predict_with_fit(self):
+        """
+        The goal of this function is to check if the predict function 
+        works with random data.
         
         Arguments:
             None
             
         Returns:
-            bool: True or False"""
-        model=KMeans(randomly_generated_data=True)
+            bool: True or False
+        """
+
+        model=KMeans(randomly_generated_data=True,n_iter=5)
+        model.generate_initial_K()
+        model.first_attribution()
+        model.fit()
+        X=np.random.uniform(low=-100,high=100,size=(100,2))
         
-        n_rows = configs["number_of_individuals"]
-        n_columns = configs["number_dimension"]
-        lim_min = configs["limit_min"]
-        lim_max = configs["limit_max"]
-        X=np.random.uniform(low=lim_min,high=lim_max,size=(n_rows,n_columns))
-        self.assertRaises(AttributeError,model.predict,"'KMeans' object has no attribute 'current_cluster_position'") 
-
-
+        try:
+            model.predict(X)
+        except:
+            self.fail("Error detected")
 
 if __name__ == "__main__":
     unittest.main()
