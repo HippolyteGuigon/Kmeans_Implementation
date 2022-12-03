@@ -58,8 +58,6 @@ def model_launch() -> None:
     model.save_final_clustering()
     logger.info(f"Clustering is over and your data has been saved {args.Name}")
     np.save("data/final_cluster_position.npy", model.get_final_cluster_position())
-    print(model.get_params())
-
 
 if __name__ == "__main__":
     model_launch()
