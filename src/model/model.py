@@ -32,13 +32,18 @@ class KMeans(Data_Generator, Generate_Region):
         self,
         path_config_model="configs/model_params.yml",
         path_config_file="configs/data_params.yml",
+        path_config_default="configs/default_params.yml",
         **kwargs,
     ):
+        self.default_dict_params=load_conf(path_config_default)
 
         self.dict_params = {}
 
         for param, value in kwargs.items():
-            self.dict_params[param] = value
+            if param not in self.default_dict_params.keys():
+                raise AttributeError(f"The KMeans model has no attribute {param}")
+            else:
+                self.dict_params[param] = value
 
         self.dict_params=load_default_params(self.dict_params)
 

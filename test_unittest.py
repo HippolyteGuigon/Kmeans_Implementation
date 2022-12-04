@@ -175,6 +175,19 @@ class Test(unittest.TestCase):
         except:
             self.fail("Error detected")
 
-    #def test_default_parameters(self):
+    def test_invalid_argument(self):
+        """
+        The goal of this test function is to check 
+        wheter an AttributeError is raised whenever 
+        an invalid argument in given to the function
+        
+        Arguments:
+            None
+            
+        Returns:
+            bool: True or False
+        """
+        self.assertRaises(AttributeError, lambda: KMeans(faux_argument=3))
+
 if __name__ == "__main__":
     unittest.main()
