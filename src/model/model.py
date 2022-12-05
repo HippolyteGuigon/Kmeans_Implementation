@@ -6,6 +6,7 @@ from sklearn.exceptions import NotFittedError
 from src.confs.confs import load_conf,load_default_params
 import json
 from scipy import spatial
+import random
 
 sys.path.insert(0, os.path.join(os.getcwd(), "src/confs"))
 sys.path.insert(0, os.path.join(os.getcwd(), "src/data_generator"))
@@ -121,26 +122,13 @@ class KMeans(Data_Generator, Generate_Region):
                 size=(1, self.configs["number_dimension"]),
             )
 
-            def respect_limit(x:np.array(float),max:float,min:float)->np.array(float):
-                if x>max:
-                    return max
-                elif x<min:
-                    return min
-                else:
-                    return x
+
 
             while len(centroids)<K:
-                new_point=np.random.uniform(
-                low=self.configs["limit_min"],
-                high=self.configs["limit_max"],
-                size=(1, self.configs["number_dimension"]),
-            )
-                distance_closest_point=spatial.KDTree(centroids).query(new_point)[0]
-                nearest_centroid=centroids[spatial.KDTree(centroids).query(new_point)[1]]
-                probability_distance=np.sqrt(np.square(nearest_centroid+distance_closest_point))
-                new_cluster=np.random.normal(probability_distance,1,size=(1,self.configs["number_dimension"]))
-                new_cluster_cleaned=np.array([[respect_limit(x,self.configs["limit_max"],self.configs["limit_min"]) for x in new_cluster[0]]])
-                centroids=np.append(centroids,new_cluster_cleaned,axis=0)
+                distance_closest_point=spatial.KDTree(centroids).query(self.data)[0]
+                point_choice=random.choices(distance_closest_point,weights=(i/sum(distance_closest_point) for i in distance_closest_point))[0]
+                new_cluster=np.array([self.data[np.where(distance_closest_point==point_choice)[0][0]]])
+                centroids=np.append(centroids,new_cluster,axis=0)
 
             self.initial_coordinates = centroids
             return centroids
