@@ -5,6 +5,7 @@ from sklearn.metrics.pairwise import pairwise_distances
 from sklearn.exceptions import NotFittedError
 from src.confs.confs import load_conf,load_default_params
 import json
+from scipy import spatial
 
 sys.path.insert(0, os.path.join(os.getcwd(), "src/confs"))
 sys.path.insert(0, os.path.join(os.getcwd(), "src/data_generator"))
@@ -47,6 +48,8 @@ class KMeans(Data_Generator, Generate_Region):
 
         self.dict_params=load_default_params(self.dict_params)
 
+        if type(self.dict_params["init"])==np.ndarray:
+            self.dict_params["init"]=self.dict_params["init"].tolist()
         with open("configs/final_params.json",'w') as fp:
             json.dump(self.dict_params,fp)
 
@@ -65,7 +68,7 @@ class KMeans(Data_Generator, Generate_Region):
             self.configs["limit_min"] = self.data.min()
             self.configs["limit_max"] = self.data.max()
 
-    def generate_initial_K(self, random_initialisation=True, *args) -> np.array(float):
+    def generate_initial_K(self, *args) -> np.array(float):
         """
         The goal of this function is to initialize K centroids
         randomly that will be then used to allocate points between
@@ -84,7 +87,7 @@ class KMeans(Data_Generator, Generate_Region):
             K centroids
         """
 
-        if random_initialisation:
+        if self.default_dict_params["init"]=="random":
             lim_min = self.configs["limit_min"]
             lim_max = self.configs["limit_max"]
             initial_cluster_coordinates = np.random.uniform(
@@ -95,7 +98,7 @@ class KMeans(Data_Generator, Generate_Region):
             self.initial_coordinates = initial_cluster_coordinates
             return self.initial_coordinates
 
-        else:
+        elif type(self.default_dict_params["init"])==np.ndarray:
 
             initial_coordinates = args[0]
             K = self.dict_params["n_clusters"]
@@ -109,6 +112,38 @@ class KMeans(Data_Generator, Generate_Region):
                 )
             self.initial_coordinates = initial_coordinates
             return initial_coordinates
+
+        elif self.default_dict_params["init"]=="k-means++":
+            K=self.dict_params["n_clusters"]
+            centroids=np.random.uniform(
+                low=self.configs["limit_min"],
+                high=self.configs["limit_max"],
+                size=(1, self.configs["number_dimension"]),
+            )
+
+            def respect_limit(x:np.array(float),max:float,min:float)->np.array(float):
+                if x>max:
+                    return max
+                elif x<min:
+                    return min
+                else:
+                    return x
+
+            while len(centroids)<K:
+                new_point=np.random.uniform(
+                low=self.configs["limit_min"],
+                high=self.configs["limit_max"],
+                size=(1, self.configs["number_dimension"]),
+            )
+                distance_closest_point=spatial.KDTree(centroids).query(new_point)[0]
+                nearest_centroid=centroids[spatial.KDTree(centroids).query(new_point)[1]]
+                probability_distance=np.sqrt(np.square(nearest_centroid+distance_closest_point))
+                new_cluster=np.random.normal(probability_distance,1,size=(1,self.configs["number_dimension"]))
+                new_cluster_cleaned=np.array([[respect_limit(x,self.configs["limit_max"],self.configs["limit_min"]) for x in new_cluster[0]]])
+                centroids=np.append(centroids,new_cluster_cleaned,axis=0)
+
+            self.initial_coordinates = centroids
+            return centroids
 
     def first_attribution(self) -> np.array(float):
         """

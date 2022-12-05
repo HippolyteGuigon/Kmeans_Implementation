@@ -77,14 +77,33 @@ class Test(unittest.TestCase):
         
 
         try:
-            model_test = KMeans(randomly_generated_data=True, max_iter=10)
-            K = model_test.get_params()["n_clusters"]
-            model_test.generate_initial_K(False, np.random.uniform(size=(K, n_columns)))
+            model_test = KMeans(randomly_generated_data=True, max_iter=10, init=np.random.uniform(size=(2, n_columns)))
+            model_test.generate_initial_K(False)
             model_test.first_attribution()
             model_test.fit()
         except:
             self.fail("Error detected")
 
+    def test_kmeans_plus_plus(self):
+        """
+        The goal of this function is to check if 
+        KMeans ++ works as initialization for the first
+        centroids
+        
+        Arguments:
+            None
+            
+        Returns:
+            boolean: True or False"""
+
+        try:
+            model_test = KMeans(randomly_generated_data=True, max_iter=10, init="k-means++")
+            model_test.generate_initial_K(False)
+            model_test.first_attribution()
+            model_test.fit()
+        except:
+            self.fail("Error detected")
+            
     def test_full_pipeline(self):
         """
         The goal of this test-function is checking if the full KMeans
