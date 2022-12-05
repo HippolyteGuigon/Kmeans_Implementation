@@ -206,6 +206,7 @@ class KMeans(Data_Generator, Generate_Region):
             self.current_cluster_position = self.generate_region.compute_centroid(
                 self.current_repartition
             )
+            iter+=1
         return self.current_repartition
 
     def save_final_clustering(self) -> None:
