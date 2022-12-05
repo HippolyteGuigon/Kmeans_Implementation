@@ -8,7 +8,7 @@ n_clusters: 8
 
 init: "k-means++"
 
-max_iter: 300
+max_iter: 20
 
 tol: 0.0001
 
