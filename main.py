@@ -24,7 +24,9 @@ parser.add_argument(
 
 parser.add_argument(
     "data_type",
-    help="The kind of data to be clustered. If you want a random set of data to be clustered,enter random, else enter own_data",
+    help="The kind of data to be clustered. \
+        If you want a random set of data to be \
+            clustered,enter random, else enter own_data",
     type=str,
 )
 
@@ -58,6 +60,7 @@ def model_launch() -> None:
     model.save_final_clustering()
     logger.info(f"Clustering is over and your data has been saved {args.Name}")
     np.save("data/final_cluster_position.npy", model.get_final_cluster_position())
+
 
 if __name__ == "__main__":
     model_launch()
