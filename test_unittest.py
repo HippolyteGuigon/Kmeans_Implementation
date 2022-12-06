@@ -4,8 +4,6 @@ from src.model.model import KMeans
 from src.confs.confs import load_conf
 import numpy as np
 import os
-from sklearn.exceptions import NotFittedError
-import sys
 
 test = Data_Generator()
 
@@ -56,9 +54,10 @@ class Test(unittest.TestCase):
             -bool: True or False
         """
         model_test = KMeans(randomly_generated_data=True, max_iter=10)
-        K=model_test.get_params()["n_clusters"]
+        K = model_test.get_params()["n_clusters"]
         test_centroid = model_test.generate_initial_K()
         model_test.first_attribution()
+        configs = load_conf("configs/data_params.yml")
         self.assertEqual(test_centroid.shape[0], K)
         self.assertEqual(test_centroid.shape[1], configs["number_dimension"])
 
@@ -74,12 +73,36 @@ class Test(unittest.TestCase):
             -bool: True or False
         """
         n_columns = configs["number_dimension"]
-        
 
         try:
-            model_test = KMeans(randomly_generated_data=True, max_iter=10)
-            K = model_test.get_params()["n_clusters"]
-            model_test.generate_initial_K(False, np.random.uniform(size=(K, n_columns)))
+            model_test = KMeans(
+                randomly_generated_data=True,
+                max_iter=10,
+                init=np.random.uniform(size=(2, n_columns)),
+            )
+            model_test.generate_initial_K(False)
+            model_test.first_attribution()
+            model_test.fit()
+        except:
+            self.fail("Error detected")
+
+    def test_kmeans_plus_plus(self):
+        """
+        The goal of this function is to check if
+        KMeans ++ works as initialization for the first
+        centroids
+
+        Arguments:
+            None
+
+        Returns:
+            boolean: True or False"""
+
+        try:
+            model_test = KMeans(
+                randomly_generated_data=True, max_iter=10, init="k-means++"
+            )
+            model_test.generate_initial_K(False)
             model_test.first_attribution()
             model_test.fit()
         except:
@@ -120,7 +143,7 @@ class Test(unittest.TestCase):
         data_generated = np.random.uniform(
             low=-1000,
             high=1000,
-            size=(np.random.randint(low=1, high=10), np.random.randint(low=1, high=10)),
+            size=(1000, np.random.randint(low=1, high=10)),
         )
         np.save("data/data_to_cluster.npy", data_generated)
         try:
@@ -145,7 +168,6 @@ class Test(unittest.TestCase):
         n_columns = configs["number_dimension"]
         lim_min = configs["limit_min"]
         lim_max = configs["limit_max"]
-        X = np.random.uniform(low=lim_min, high=lim_max, size=(n_rows, n_columns))
         self.assertRaises(
             AttributeError,
             model.predict,
@@ -154,27 +176,44 @@ class Test(unittest.TestCase):
 
     def test_predict_with_fit(self):
         """
-        The goal of this function is to check if the predict function 
+        The goal of this function is to check if the predict function
         works with random data.
-        
+
         Arguments:
             None
-            
+
         Returns:
             bool: True or False
         """
 
-        model=KMeans(randomly_generated_data=True,max_iter=5)
+        model = KMeans(randomly_generated_data=True, max_iter=5)
         model.generate_initial_K()
         model.first_attribution()
         model.fit()
-        X=np.random.uniform(low=-100,high=100,size=(100,2))
-        
+        configs = load_conf("configs/data_params.yml")
+        X = np.random.uniform(
+            low=-100, high=100, size=(100, configs["number_dimension"])
+        )
+
         try:
             model.predict(X)
         except:
             self.fail("Error detected")
 
-    #def test_default_parameters(self):
+    def test_invalid_argument(self):
+        """
+        The goal of this test function is to check
+        wheter an AttributeError is raised whenever
+        an invalid argument in given to the function
+
+        Arguments:
+            None
+
+        Returns:
+            bool: True or False
+        """
+        self.assertRaises(AttributeError, lambda: KMeans(faux_argument=3))
+
+
 if __name__ == "__main__":
     unittest.main()

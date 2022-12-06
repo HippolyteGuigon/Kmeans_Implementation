@@ -3,8 +3,11 @@ import sys
 import os
 from sklearn.metrics.pairwise import pairwise_distances
 from sklearn.exceptions import NotFittedError
-from src.confs.confs import load_conf,load_default_params
+from src.confs.confs import load_conf, load_default_params, updating_parameter
 import json
+from scipy import spatial
+import random
+import ruamel.yaml
 
 sys.path.insert(0, os.path.join(os.getcwd(), "src/confs"))
 sys.path.insert(0, os.path.join(os.getcwd(), "src/data_generator"))
@@ -32,21 +35,38 @@ class KMeans(Data_Generator, Generate_Region):
         self,
         path_config_model="configs/model_params.yml",
         path_config_file="configs/data_params.yml",
+        path_config_default="configs/default_params.yml",
         **kwargs,
     ):
+
+        self.default_dict_params = load_conf(path_config_default)
 
         self.dict_params = {}
 
         for param, value in kwargs.items():
-            self.dict_params[param] = value
+            if param not in self.default_dict_params.keys():
+                raise AttributeError(f"The KMeans model has no attribute {param}")
+            else:
+                self.dict_params[param] = value
 
-        self.dict_params=load_default_params(self.dict_params)
+        self.dict_params = load_default_params(self.dict_params)
 
-        with open("configs/final_params.json",'w') as fp:
-            json.dump(self.dict_params,fp)
+        if type(self.dict_params["init"]) == np.ndarray:
+            self.dict_params["init"] = self.dict_params["init"].tolist()
+        with open("configs/final_params.json", "w") as fp:
+            json.dump(self.dict_params, fp)
 
         self.configs = load_conf(path_config_file)
         self.configs_model = load_conf(path_config_model)
+
+        if not self.dict_params["randomly_generated_data"]:
+            if not os.path.exists("data/data_to_cluster.npy"):
+                raise OSError(
+                    "The user must upload his data under the path data/data_to_cluster.npy"
+                )
+            self.data = np.load("data/data_to_cluster.npy")
+            updating_parameter(self.configs, self.data)
+
         self.K = self.dict_params["n_clusters"]
         self.data = super().generate_data(
             random=self.dict_params["randomly_generated_data"]
@@ -54,13 +74,7 @@ class KMeans(Data_Generator, Generate_Region):
         self.data_region = super().initiate_region_points()
         self.generate_region = Generate_Region()
 
-        if not self.dict_params["randomly_generated_data"]:
-            self.configs["number_of_individuals"] = self.data.shape[0]
-            self.configs["number_dimension"] = self.data.shape[1]
-            self.configs["limit_min"] = self.data.min()
-            self.configs["limit_max"] = self.data.max()
-
-    def generate_initial_K(self, random_initialisation=True, *args) -> np.array(float):
+    def generate_initial_K(self, *args) -> np.array(float):
         """
         The goal of this function is to initialize K centroids
         randomly that will be then used to allocate points between
@@ -79,7 +93,7 @@ class KMeans(Data_Generator, Generate_Region):
             K centroids
         """
 
-        if random_initialisation:
+        if self.default_dict_params["init"] == "random":
             lim_min = self.configs["limit_min"]
             lim_max = self.configs["limit_max"]
             initial_cluster_coordinates = np.random.uniform(
@@ -90,7 +104,7 @@ class KMeans(Data_Generator, Generate_Region):
             self.initial_coordinates = initial_cluster_coordinates
             return self.initial_coordinates
 
-        else:
+        elif type(self.default_dict_params["init"]) == np.ndarray:
 
             initial_coordinates = args[0]
             K = self.dict_params["n_clusters"]
@@ -104,6 +118,30 @@ class KMeans(Data_Generator, Generate_Region):
                 )
             self.initial_coordinates = initial_coordinates
             return initial_coordinates
+
+        elif self.default_dict_params["init"] == "k-means++":
+            K = self.dict_params["n_clusters"]
+            centroids = np.random.uniform(
+                low=self.configs["limit_min"],
+                high=self.configs["limit_max"],
+                size=(1, self.configs["number_dimension"]),
+            )
+
+            while len(centroids) < K:
+                distance_closest_point = spatial.KDTree(centroids).query(self.data)[0]
+                point_choice = random.choices(
+                    distance_closest_point,
+                    weights=(
+                        i / sum(distance_closest_point) for i in distance_closest_point
+                    ),
+                )[0]
+                new_cluster = np.array(
+                    [self.data[np.where(distance_closest_point == point_choice)[0][0]]]
+                )
+                centroids = np.append(centroids, new_cluster, axis=0)
+
+            self.initial_coordinates = centroids
+            return centroids
 
     def first_attribution(self) -> np.array(float):
         """
@@ -178,6 +216,7 @@ class KMeans(Data_Generator, Generate_Region):
             self.current_cluster_position = self.generate_region.compute_centroid(
                 self.current_repartition
             )
+            iter += 1
         return self.current_repartition
 
     def save_final_clustering(self) -> None:

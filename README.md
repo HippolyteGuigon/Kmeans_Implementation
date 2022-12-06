@@ -10,7 +10,7 @@ among which those points will be reparted, K being chosen by the user.
 
 For the moment, the KMeans algorithm is ready, and you can choose between clustering your own imported data on run the all Pipeline on randomly generated data. The user can also manually enter the centroid he wishes for the first iteration.
 Next steps are to allow the user to enter his own data as well as implementing other KMeans 
-classical functionnalities (KMeans ++, choose different distances).
+classical functionnalities (Choose different distances,add other hyperparameters).
 
 If you see any improvements that could be made in the code, do not hesitate to reach out at 
 Hippolyte.guigon@hec.edu
@@ -36,7 +36,11 @@ To choose the parameters of the K-means algorithm you want to launch (number of 
 number of points, number of dimensions) you have to specify them in the following configs file:  
 
   -```configs/data_params.yml```  
-  -```configs/model_params.yml```
+  
+As well as in the model once it is launched. You can check the available parameters at the following 
+path:
+
+  -```configs/default_params.yml```  
 
 Then, you have two options:
 - If you want to run the KMeans algorithm with random data, run the following command: ```python run main.py user_name random```

@@ -1,6 +1,14 @@
+#Here are the default params passed to the model, you'll find the description below:
+#n_clusters:int: The number of clusters the model must create. 
+#init: str or np.array() The way the first centroids are created, user has to choose between k-means++, random or enter centroids manually
+#max_iter: int: The maximum number of iteration the model can perform 
+#tol: The maximum tolerance in the distance between centroids that can be done by the model
+
 n_clusters: 8
 
-max_iter: 300
+init: "k-means++"
+
+max_iter: 20
 
 tol: 0.0001
 
@@ -11,3 +19,5 @@ random_state: None
 copy_x: True 
 
 algorithm: "lloyd"
+
+randomly_generated_data: True
