@@ -111,8 +111,8 @@ class KMeans(Data_Generator, Generate_Region):
             K = self.dict_params["n_clusters"]
             dimension = self.configs["number_dimension"]
             if (
-                initial_coordinates.shape[0] != K or 
-                initial_coordinates.shape[1] != dimension
+                initial_coordinates.shape[0] != K
+                or initial_coordinates.shape[1] != dimension
             ):
                 raise ValueError(
                     f"The shapes of entered cluster must be [{K},{dimension}]"
