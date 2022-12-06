@@ -62,7 +62,8 @@ class KMeans(Data_Generator, Generate_Region):
         if not self.dict_params["randomly_generated_data"]:
             if not os.path.exists("data/data_to_cluster.npy"):
                 raise OSError(
-                    "The user must upload his data under the path data/data_to_cluster.npy"
+                    "The user must upload his data under the\
+                         path data/data_to_cluster.npy"
                 )
             self.data = np.load("data/data_to_cluster.npy")
             updating_parameter(self.configs, self.data)
@@ -110,8 +111,8 @@ class KMeans(Data_Generator, Generate_Region):
             K = self.dict_params["n_clusters"]
             dimension = self.configs["number_dimension"]
             if (
-                initial_coordinates.shape[0] != K
-                or initial_coordinates.shape[1] != dimension
+                initial_coordinates.shape[0] != K or 
+                initial_coordinates.shape[1] != dimension
             ):
                 raise ValueError(
                     f"The shapes of entered cluster must be [{K},{dimension}]"
