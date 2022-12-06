@@ -4,8 +4,6 @@ from src.model.model import KMeans
 from src.confs.confs import load_conf
 import numpy as np
 import os
-from sklearn.exceptions import NotFittedError
-import sys
 
 test = Data_Generator()
 
@@ -145,7 +143,7 @@ class Test(unittest.TestCase):
         data_generated = np.random.uniform(
             low=-1000,
             high=1000,
-            size=(np.random.randint(low=1, high=10), np.random.randint(low=1, high=10)),
+            size=(1000, np.random.randint(low=1, high=10)),
         )
         np.save("data/data_to_cluster.npy", data_generated)
         try:
@@ -170,7 +168,6 @@ class Test(unittest.TestCase):
         n_columns = configs["number_dimension"]
         lim_min = configs["limit_min"]
         lim_max = configs["limit_max"]
-        X = np.random.uniform(low=lim_min, high=lim_max, size=(n_rows, n_columns))
         self.assertRaises(
             AttributeError,
             model.predict,

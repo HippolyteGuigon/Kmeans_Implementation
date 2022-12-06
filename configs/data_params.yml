@@ -7,7 +7,7 @@
 
 number_of_individuals: 1000
 
-number_dimension: 3
+number_dimension: 9
 
 limit_min: -1000
 
