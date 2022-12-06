@@ -10,7 +10,7 @@ among which those points will be reparted, K being chosen by the user.
 
 For the moment, the KMeans algorithm is ready, and you can choose between clustering your own imported data on run the all Pipeline on randomly generated data. The user can also manually enter the centroid he wishes for the first iteration.
 Next steps are to allow the user to enter his own data as well as implementing other KMeans 
-classical functionnalities (KMeans ++, choose different distances).
+classical functionnalities (Choose different distances,add other hyperparameters).
 
 If you see any improvements that could be made in the code, do not hesitate to reach out at 
 Hippolyte.guigon@hec.edu
