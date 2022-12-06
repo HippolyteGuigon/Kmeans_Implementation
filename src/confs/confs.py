@@ -1,5 +1,7 @@
 import yaml
-
+import os 
+import numpy as np
+import ruamel.yaml
 
 def load_conf(path: str) -> yaml:
     """
@@ -30,7 +32,8 @@ def load_default_params(dict_params:dict(),path_default_params="configs/default_
         
     Returns:
         -dict_params: dict(): The dictionnary of parameters after it
-        was updated with default parameters"""
+        was updated with default parameters
+    """
 
     
     default_params=load_conf(path_default_params)
@@ -39,3 +42,29 @@ def load_default_params(dict_params:dict(),path_default_params="configs/default_
             dict_params[key]=default_params[key]
 
     return dict_params
+
+def updating_parameter(dict_conf,points)->None:
+    """
+    The goal of this function is, if the user decides to cluster its own 
+    data, to modify the yml file of the model so that the pipeline can run 
+    without problem and appropriate parameters can be applicated
+    
+    Arguments:
+        -dict_conf: dict(str): The current dictionnary with the parameters 
+        of the yml file 
+        -points: np.array(float): The points entered by the user to be clustered 
+        
+    Returns:
+        None
+    """
+    data=np.load(os.path.join(os.getcwd(),"data/data_to_cluster.npy"))
+    yaml = ruamel.yaml.YAML()
+    with open(os.path.join(os.getcwd(),'configs/data_params.yml')) as fp:
+        data = yaml.load(fp)
+    data["number_dimension"]=points.shape[1]
+    with open('configs/data_params.yml', 'w') as file:
+        documents = yaml.dump(data, file)
+    dict_conf["number_of_individuals"] = points.shape[0]
+    dict_conf["number_dimension"] = points.shape[1]
+    dict_conf["limit_min"] = points.min()
+    dict_conf["limit_max"] = points.max()

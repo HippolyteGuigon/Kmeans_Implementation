@@ -3,10 +3,11 @@ import sys
 import os
 from sklearn.metrics.pairwise import pairwise_distances
 from sklearn.exceptions import NotFittedError
-from src.confs.confs import load_conf,load_default_params
+from src.confs.confs import load_conf,load_default_params,updating_parameter
 import json
 from scipy import spatial
 import random
+import ruamel.yaml
 
 sys.path.insert(0, os.path.join(os.getcwd(), "src/confs"))
 sys.path.insert(0, os.path.join(os.getcwd(), "src/data_generator"))
@@ -37,6 +38,7 @@ class KMeans(Data_Generator, Generate_Region):
         path_config_default="configs/default_params.yml",
         **kwargs,
     ):
+        
         self.default_dict_params=load_conf(path_config_default)
 
         self.dict_params = {}
@@ -56,6 +58,13 @@ class KMeans(Data_Generator, Generate_Region):
 
         self.configs = load_conf(path_config_file)
         self.configs_model = load_conf(path_config_model)
+
+        if not self.dict_params["randomly_generated_data"]:
+            if not os.path.exists("data/data_to_cluster.npy"):
+                raise OSError("The user must upload his data under the path data/data_to_cluster.npy")
+            self.data=np.load("data/data_to_cluster.npy")
+            updating_parameter(self.configs,self.data)
+        
         self.K = self.dict_params["n_clusters"]
         self.data = super().generate_data(
             random=self.dict_params["randomly_generated_data"]
@@ -63,11 +72,7 @@ class KMeans(Data_Generator, Generate_Region):
         self.data_region = super().initiate_region_points()
         self.generate_region = Generate_Region()
 
-        if not self.dict_params["randomly_generated_data"]:
-            self.configs["number_of_individuals"] = self.data.shape[0]
-            self.configs["number_dimension"] = self.data.shape[1]
-            self.configs["limit_min"] = self.data.min()
-            self.configs["limit_max"] = self.data.max()
+        
 
     def generate_initial_K(self, *args) -> np.array(float):
         """
@@ -126,6 +131,8 @@ class KMeans(Data_Generator, Generate_Region):
 
             while len(centroids)<K:
                 distance_closest_point=spatial.KDTree(centroids).query(self.data)[0]
+                np.save("problem.npy",np.array(centroids))
+                np.save("data.npy",np.array(self.data))
                 point_choice=random.choices(distance_closest_point,weights=(i/sum(distance_closest_point) for i in distance_closest_point))[0]
                 new_cluster=np.array([self.data[np.where(distance_closest_point==point_choice)[0][0]]])
                 centroids=np.append(centroids,new_cluster,axis=0)

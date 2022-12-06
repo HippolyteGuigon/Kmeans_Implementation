@@ -187,7 +187,7 @@ class Test(unittest.TestCase):
         model.generate_initial_K()
         model.first_attribution()
         model.fit()
-        X=np.random.uniform(low=-100,high=100,size=(100,2))
+        X=np.random.uniform(low=-100,high=100,size=(100,configs["number_dimension"]))
         
         try:
             model.predict(X)
