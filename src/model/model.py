@@ -307,5 +307,8 @@ class KMeans(Data_Generator, Generate_Region):
         Arguments:
             None
 
+        Returns:
+            -dict_params: dict[str]: The dictionnary containing
+            the parameters of the model
         """
         return self.dict_params
