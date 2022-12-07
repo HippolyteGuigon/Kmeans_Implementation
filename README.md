@@ -58,9 +58,13 @@ In both cases, you'll find your clustered data under the following path: ```data
 - The second method is to run it like the classical sklearn KMeans model
 
 For this, run the following steps:
+
   -```from src.model.model import KMeans```
+
   -```KMeans.fit(X)``` with X the numpy array of the data to cluster
+
   -```KMeans.labels()``` to get the clusters of the clustered data
+  
   -```KMeans.predict(y)``` with y another dataset of points to cluster 
 
 

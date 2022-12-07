@@ -187,25 +187,25 @@ class KMeans(Data_Generator, Generate_Region):
         return full_data
 
     @trackcalls
-    def fit(self,X=np.array([])) -> None:
+    def fit(self, X=np.array([])) -> None:
         """
         The goal of this function is, at each step of the
         algorithm, to compute the region of influence of each
         centroid and its centroid
 
         Arguments:
-            -X: np.array(float): The data the model must be fitted on 
+            -X: np.array(float): The data the model must be fitted on
 
         Returns:
             None
         """
         if self.dict_params["randomly_generated_data"]:
-            X=self.data
+            X = self.data
             self.generate_initial_K()
             self.first_attribution()
-        elif X.shape[0]!=0:
+        elif np.any(X):
             updating_parameter(self.configs, X)
-            self.data=X
+            self.data = X
             self.generate_initial_K()
             self.first_attribution()
         self.current_cluster_position = self.initial_coordinates
