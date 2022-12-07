@@ -111,8 +111,8 @@ class KMeans(Data_Generator, Generate_Region):
             K = self.dict_params["n_clusters"]
             dimension = self.configs["number_dimension"]
             if (
-                initial_coordinates.shape[0] != K or 
-                initial_coordinates.shape[1] != dimension
+                initial_coordinates.shape[0] != K
+                or initial_coordinates.shape[1] != dimension
             ):
                 raise ValueError(
                     f"The shapes of entered cluster must be [{K},{dimension}]"
@@ -187,19 +187,27 @@ class KMeans(Data_Generator, Generate_Region):
         return full_data
 
     @trackcalls
-    def fit(self) -> np.array(float):
+    def fit(self,X=np.array([])) -> None:
         """
         The goal of this function is, at each step of the
         algorithm, to compute the region of influence of each
         centroid and its centroid
 
         Arguments:
-            None
+            -X: np.array(float): The data the model must be fitted on 
 
         Returns:
-            -current_repartition: np.array(float): The final repartition
-            of points among calculated clusters
+            None
         """
+        if self.dict_params["randomly_generated_data"]:
+            X=self.data
+            self.generate_initial_K()
+            self.first_attribution()
+        elif X.shape[0]!=0:
+            updating_parameter(self.configs, X)
+            self.data=X
+            self.generate_initial_K()
+            self.first_attribution()
         self.current_cluster_position = self.initial_coordinates
         iter = 0
 
@@ -218,7 +226,6 @@ class KMeans(Data_Generator, Generate_Region):
                 self.current_repartition
             )
             iter += 1
-        return self.current_repartition
 
     def save_final_clustering(self) -> None:
         """

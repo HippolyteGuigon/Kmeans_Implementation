@@ -32,6 +32,11 @@ The all project was coded under PEP-8 (https://peps.python.org/pep-0008/) and fl
 
 ## How to use ? 
 
+You have two options for running this KMeans algorithm:
+
+
+- The first one is to run in through the shell following the next steps:
+
 To choose the parameters of the K-means algorithm you want to launch (number of clusters, 
 number of points, number of dimensions) you have to specify them in the following configs file:  
 
@@ -43,8 +48,24 @@ path:
   -```configs/default_params.yml```  
 
 Then, you have two options:
-- If you want to run the KMeans algorithm with random data, run the following command: ```python run main.py user_name random```
+  -If you want to run the KMeans algorithm with random data, run the following command: ```python run main.py user_name random```
 
-- If you want to cluster your own data, put them under the following path: ```data/data_to_cluster.npy``` and run the following command:  ```python run main.py user_name own_data```
+  -If you want to cluster your own data, put them under the following path: ```data/data_to_cluster.npy``` and run the following command:  ```python run main.py user_name own_data```
 
 In both cases, you'll find your clustered data under the following path: ```data/final_clustered_data.npy``` and the centroids under the path ```data/final_cluster_position.npy```
+
+
+- The second method is to run it like the classical sklearn KMeans model
+
+For this, run the following steps:
+
+  -```from src.model.model import KMeans```
+
+  -```KMeans.fit(X)``` with X the numpy array of the data to cluster
+
+  -```KMeans.labels()``` to get the clusters of the clustered data
+  
+  -```KMeans.predict(y)``` with y another dataset of points to cluster 
+
+
+

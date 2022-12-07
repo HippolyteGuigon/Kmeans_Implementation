@@ -214,6 +214,26 @@ class Test(unittest.TestCase):
         """
         self.assertRaises(AttributeError, lambda: KMeans(faux_argument=3))
 
+    def test_fit_function(self):
+        """
+        The goal of this function is to check that the fitting function 
+        works when given an array as input
+        
+        Arguments:
+            -X:np.array(float): The set of points to be clustered
+            
+        Returns:
+            bool: True or False
+        """
 
+        X=np.random.uniform(low=-100, high=100,size=(np.random.randint(low=500,high=1000),configs["number_dimension"]))
+        model=KMeans(randomly_generated_data=False)
+        y=np.random.uniform(low=-1000,high=1000,size=X.shape)
+        try:
+            model.fit(X)
+            model.labels
+            model.predict(y)
+        except:
+            self.fail("Error detected")
 if __name__ == "__main__":
     unittest.main()
