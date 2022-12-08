@@ -218,8 +218,7 @@ class KMeans(Data_Generator, Generate_Region):
             )
             and iter < self.dict_params["max_iter"]
         ):
-            
-            
+
             self.current_repartition = self.cluster_attribution(
                 self.current_cluster_position
             )

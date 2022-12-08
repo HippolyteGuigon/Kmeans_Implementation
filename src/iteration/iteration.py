@@ -7,6 +7,7 @@ from confs import load_conf, updating_parameter
 from scipy import spatial
 import json
 
+
 class Generate_Region:
     """
     The goal of this class is, at each step of the KMeans algorithm,
@@ -19,13 +20,13 @@ class Generate_Region:
         self,
         path_config_model="configs/model_params.yml",
         path_config_file="configs/data_params.yml",
-        path_final_params="configs/final_params.json"
+        path_final_params="configs/final_params.json",
     ):
 
         self.configs = load_conf(path_config_file)
         self.configs_model = load_conf(path_config_model)
-        f=open(path_final_params)
-        self.final_params=json.load(f)
+        f = open(path_final_params)
+        self.final_params = json.load(f)
 
     def initiate_region_points(self, X) -> np.array(float):
         """
