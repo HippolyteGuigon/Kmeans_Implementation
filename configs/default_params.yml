@@ -20,4 +20,4 @@ copy_x: True
 
 algorithm: "lloyd"
 
-randomly_generated_data: True
+randomly_generated_data: False
