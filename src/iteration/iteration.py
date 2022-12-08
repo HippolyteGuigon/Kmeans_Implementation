@@ -3,9 +3,10 @@ import sys
 import os
 
 sys.path.insert(0, os.path.join(os.getcwd(), "src/confs"))
-from confs import load_conf
+from confs import load_conf, updating_parameter
 from scipy import spatial
 import json
+
 
 class Generate_Region:
     """
@@ -19,20 +20,22 @@ class Generate_Region:
         self,
         path_config_model="configs/model_params.yml",
         path_config_file="configs/data_params.yml",
-        path_final_params="configs/final_params.json"
+        path_final_params="configs/final_params.json",
     ):
 
         self.configs = load_conf(path_config_file)
         self.configs_model = load_conf(path_config_model)
-        f=open(path_final_params)
-        self.final_params=json.load(f)
-    def initiate_region_points(self) -> np.array(float):
+        f = open(path_final_params)
+        self.final_params = json.load(f)
+
+    def initiate_region_points(self, X) -> np.array(float):
         """
         Generates the data randomly according to the configs
         file with a uniform law.
 
         Arguments:
-            None
+            -X: np.array(float): numpy array to be clustered from
+            which the characteristics will be taken
 
         Returns:
             -data_generated : np.array(float) : Set of points
@@ -63,9 +66,10 @@ class Generate_Region:
             -new_centroids_coordinates: np.array(float) with the coordinates of
             new-computed centroids
         """
-        data_region = self.initiate_region_points()
         clusters = data_points[:, -1]
         data_points = data_points[:, :-1]
+        updating_parameter(self.configs, data_points)
+        data_region = self.initiate_region_points(data_points)
         closest_points = spatial.KDTree(data_points).query(data_region)[1]
         attributed_regions = clusters[closest_points]
         data_region = np.column_stack((data_region, attributed_regions))
@@ -73,7 +77,6 @@ class Generate_Region:
         new_centroids_coordinates = np.zeros(
             shape=(self.final_params["n_clusters"], self.configs["number_dimension"])
         )
-
         for i, centroid in enumerate(unique_centroids):
             centroid_region = data_region[data_region[:, -1] == centroid][:, :-1]
             length = centroid_region.shape[0]

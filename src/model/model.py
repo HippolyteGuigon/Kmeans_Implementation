@@ -72,7 +72,7 @@ class KMeans(Data_Generator, Generate_Region):
         self.data = super().generate_data(
             random=self.dict_params["randomly_generated_data"]
         )
-        self.data_region = super().initiate_region_points()
+        self.data_region = super().initiate_region_points(self.data)
         self.generate_region = Generate_Region()
 
     def generate_initial_K(self, *args) -> np.array(float):
@@ -203,14 +203,13 @@ class KMeans(Data_Generator, Generate_Region):
             X = self.data
             self.generate_initial_K()
             self.first_attribution()
-        elif np.any(X):
+        elif not self.dict_params["randomly_generated_data"] and np.any(X):
             updating_parameter(self.configs, X)
             self.data = X
             self.generate_initial_K()
             self.first_attribution()
         self.current_cluster_position = self.initial_coordinates
         iter = 0
-
         while (
             not np.allclose(
                 self.current_cluster_position,
@@ -219,6 +218,7 @@ class KMeans(Data_Generator, Generate_Region):
             )
             and iter < self.dict_params["max_iter"]
         ):
+
             self.current_repartition = self.cluster_attribution(
                 self.current_cluster_position
             )

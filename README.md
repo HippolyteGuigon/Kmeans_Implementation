@@ -61,11 +61,13 @@ For this, run the following steps:
 
   -```from src.model.model import KMeans```
 
-  -```KMeans.fit(X)``` with X the numpy array of the data to cluster
-
-  -```KMeans.labels()``` to get the clusters of the clustered data
+  -```model=KMeans()```
   
-  -```KMeans.predict(y)``` with y another dataset of points to cluster 
+  -```model.fit(X)``` with X the numpy array of the data to cluster
+
+  -```model.labels()``` to get the clusters of the clustered data
+  
+  -```model.predict(y)``` with y another dataset of points to cluster 
 
 
 

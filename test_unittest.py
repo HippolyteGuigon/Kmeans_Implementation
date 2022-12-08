@@ -216,24 +216,51 @@ class Test(unittest.TestCase):
 
     def test_fit_function(self):
         """
-        The goal of this function is to check that the fitting function 
+        The goal of this function is to check that the fitting function
         works when given an array as input
-        
+
         Arguments:
             -X:np.array(float): The set of points to be clustered
-            
+
         Returns:
             bool: True or False
         """
 
-        X=np.random.uniform(low=-100, high=100,size=(np.random.randint(low=500,high=1000),configs["number_dimension"]))
-        model=KMeans(randomly_generated_data=False)
-        y=np.random.uniform(low=-1000,high=1000,size=X.shape)
+        X = np.random.uniform(
+            low=-100,
+            high=100,
+            size=(np.random.randint(low=500, high=1000), configs["number_dimension"]),
+        )
+        model = KMeans(randomly_generated_data=False)
+        y = np.random.uniform(low=-1000, high=1000, size=X.shape)
         try:
             model.fit(X)
             model.labels
             model.predict(y)
         except:
             self.fail("Error detected")
+
+    def testing_manual_fit_predict(self):
+        """
+        The goal of this testing function is to make sure
+        that the fit and predict manual function of the KMeans
+        algorithm works and returns data with appropriate shape.
+
+        Arguments:
+            None
+
+        Returns:
+            bool: True or False
+        """
+        dimension = np.random.randint(1, 10)
+        number_of_rows = np.random.randint(low=500, high=1000)
+        X = np.random.uniform(low=-100, high=100, size=(number_of_rows, dimension))
+        y = np.random.uniform(low=-1000, high=1000, size=(number_of_rows, dimension))
+        model = KMeans(randomly_generated_data=False)
+        model.fit(X)
+        self.assertEqual(model.labels().shape[0], number_of_rows)
+        self.assertEqual(model.predict(y)[:, -1].shape[0], number_of_rows)
+
+
 if __name__ == "__main__":
     unittest.main()
