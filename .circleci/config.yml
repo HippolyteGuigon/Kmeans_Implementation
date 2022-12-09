@@ -8,8 +8,8 @@ jobs:
     steps:
       - checkout
       - run: 
-        pip install -r requirements.txt
-        python3 main.py
+        - pip install -r requirements.txt 
+        - python test_unittest.py
   test:
     working_directory: ~/circleci-python
     docker:
@@ -17,8 +17,8 @@ jobs:
     steps:
       - checkout
       - run:
-        pip install -r requirements.txt 
-        python3 main-test.py
+        - pip install -r requirements.txt 
+        - python test_unittest.py
 
 workflows:
   build_and_test:
