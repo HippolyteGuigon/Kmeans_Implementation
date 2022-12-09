@@ -7,9 +7,11 @@ jobs:
       - image: "circleci/python:3.6.4"
     steps:
       - checkout
-      - run: 
-        - pip install -r requirements.txt 
-        - python test_unittest.py
+      - run:
+          command: |  
+            pip install -r requirements.txt 
+            python test_unittest.py
+
   test:
     working_directory: ~/circleci-python
     docker:
@@ -17,8 +19,9 @@ jobs:
     steps:
       - checkout
       - run:
-        - pip install -r requirements.txt 
-        - python test_unittest.py
+          command: |  
+            pip install -r requirements.txt 
+            python test_unittest.py
 
 workflows:
   build_and_test:
