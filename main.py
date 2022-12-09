@@ -19,6 +19,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "Name",
     help="The name entered by the user to easily find your own iteration in the logs.",
+    nargs="?",
+    const="Hippolyte",
     type=str,
 )
 
@@ -27,6 +29,8 @@ parser.add_argument(
     help="The kind of data to be clustered. \
         If you want a random set of data to be \
             clustered,enter random, else enter own_data.",
+    nargs="?",
+    const="own_data",
     type=str,
 )
 
@@ -45,6 +49,7 @@ def model_launch() -> None:
     Return:
         None
     """
+    model = KMeans(max_iter=5, randomly_generated_data=True)
     if args.data_type == "random":
         logger.info(f"KMeans will be performed with random data {args.Name}")
         model = KMeans(max_iter=5, randomly_generated_data=True)
