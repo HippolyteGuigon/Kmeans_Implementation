@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/circleci-python
     docker:
-      - image: "circleci/python:3.8.1-buster"
+      - image: "circleci/python:3.11"
     steps:
       - checkout
       - run: 
@@ -11,11 +11,11 @@ jobs:
         command: |
           pip install numpy
           pip install -r requirements.txt
-          python3 test_unittest.py
+          python test_unittest.py
   test:
     working_directory: ~/circleci-python
     docker:
-      - image: "circleci/python:3.8.1-buster"
+      - image: "circleci/python:3.11"
     steps:
       - checkout
       - run: 
@@ -23,7 +23,7 @@ jobs:
         command: |
           pip install numpy
           pip install -r requirements.txt
-          python3 test_unittest.py
+          python test_unittest.py
 
 workflows:
   version: 2
