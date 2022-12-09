@@ -10,6 +10,7 @@ jobs:
       - run:
           command: |
             pip install --upgrade pip  
+            pip install ruamel.yaml
             pip install -r requirements.txt 
             python test_unittest.py
 
@@ -22,6 +23,7 @@ jobs:
       - run:
           command: |
             pip install --upgrade pip
+            pip install ruamel.yaml
             pip install -r requirements.txt 
             python test_unittest.py
 
