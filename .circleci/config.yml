@@ -1,32 +1,26 @@
-version: 2
+version: 2.1
+
 jobs:
   build:
     working_directory: ~/circleci-python
     docker:
-      - image: "circleci/python:3.11"
+      - image: "circleci/python:3.6.4"
     steps:
       - checkout
       - run: 
-        name: running_tests
-        command: |
-          pip install numpy
-          pip install -r requirements.txt
-          python test_unittest.py
+        pip install -r requirements.txt
+        python3 main.py
   test:
     working_directory: ~/circleci-python
     docker:
-      - image: "circleci/python:3.11"
+      - image: "circleci/python:3.6.4"
     steps:
       - checkout
-      - run: 
-        name: final_checks
-        command: |
-          pip install numpy
-          pip install -r requirements.txt
-          python test_unittest.py
+      - run:
+        pip install -r requirements.txt 
+        python3 main-test.py
 
 workflows:
-  version: 2
   build_and_test:
     jobs:
       - build
