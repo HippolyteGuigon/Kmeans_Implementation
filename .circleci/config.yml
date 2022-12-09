@@ -9,6 +9,7 @@ jobs:
       - run: 
         name: running_tests
         command: |
+          pip install numpy
           pip install -r requirements.txt
           python3 test_unittest.py
   test:
@@ -20,6 +21,7 @@ jobs:
       - run: 
         name: final_checks
         command: |
+          pip install numpy
           pip install -r requirements.txt
           python3 test_unittest.py
 
