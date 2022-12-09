@@ -299,7 +299,7 @@ class KMeans(Data_Generator, Generate_Region):
         clustered_data = np.column_stack((X, cluster_belonging))
         return clustered_data
 
-    def get_params(self) -> dict[str]:
+    def get_params(self):
         """
         This function returns the params chosen by the
         user.

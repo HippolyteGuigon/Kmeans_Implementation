@@ -26,7 +26,7 @@ parser.add_argument(
     "data_type",
     help="The kind of data to be clustered. \
         If you want a random set of data to be \
-            clustered,enter random, else enter own_data",
+            clustered,enter random, else enter own_data.",
     type=str,
 )
 
