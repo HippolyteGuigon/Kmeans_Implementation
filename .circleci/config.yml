@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           command: |
-            pip install altair  
+            pip install --upgrade pip  
             pip install -r requirements.txt 
             python test_unittest.py
 
@@ -21,7 +21,7 @@ jobs:
       - checkout
       - run:
           command: |
-            pip install altair
+            pip install --upgrade pip
             pip install -r requirements.txt 
             python test_unittest.py
 
