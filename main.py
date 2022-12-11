@@ -12,7 +12,6 @@ logger.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
 
 model_params=load_conf("configs/model_params.yml")
-main()
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -67,4 +66,5 @@ def model_launch() -> None:
 
 
 if __name__ == "__main__":
+    main()
     model_launch()

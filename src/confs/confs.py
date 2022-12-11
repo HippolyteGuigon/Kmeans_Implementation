@@ -63,10 +63,10 @@ def updating_parameter(dict_conf, points) -> None:
     """
     data = np.load(os.path.join(os.getcwd(), model_params["to_cluster_data_path"]))
     yaml = ruamel.yaml.YAML()
-    with open(os.path.join(os.getcwd(), "configs/data_params.yml")) as fp:
+    with open(os.path.join(os.getcwd(), model_params["path_config_file"])) as fp:
         data = yaml.load(fp)
     data["number_dimension"] = points.shape[1]
-    with open("configs/data_params.yml", "w") as file:
+    with open(model_params["path_config_file"], "w") as file:
         documents = yaml.dump(data, file)
     dict_conf["number_of_individuals"] = points.shape[0]
     dict_conf["number_dimension"] = points.shape[1]
