@@ -9,7 +9,7 @@ def main() -> None:
     """
     The goal of this function is to have the logs being
     written at the root when the algorithm is launched.
-    The logs are saved under the path src/logs/logs.log
+    The logs are saved under the path KMeans/logs/logs.log
 
     Arguments:
         None
@@ -25,7 +25,7 @@ def main() -> None:
     stdout_handler.setLevel(logging.DEBUG)
     stdout_handler.setFormatter(formatter)
 
-    log_path = os.path.join(current_dir, "src/logs/logs.log")
+    log_path = os.path.join(current_dir, "KMeans/logs/logs.log")
     file_handler = logging.FileHandler(log_path)
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(formatter)

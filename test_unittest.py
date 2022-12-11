@@ -1,7 +1,7 @@
 import unittest
-from src.data_generator.data_generator import Data_Generator
-from src.model.model import KMeans
-from src.confs.confs import load_conf
+from KMeans.data_generator.data_generator import Data_Generator
+from KMeans.model.model import KMeans
+from KMeans.confs.confs import load_conf
 import numpy as np
 import os
 

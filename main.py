@@ -3,9 +3,9 @@ import logging
 import logging.handlers
 import sys
 import numpy as np
-from src.confs.confs import load_conf
-from src.logs.logs import main
-from src.model.model import KMeans
+from KMeans.confs.confs import load_conf
+from KMeans.logs.logs import main
+from KMeans.model.model import KMeans
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)

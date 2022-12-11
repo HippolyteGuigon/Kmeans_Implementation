@@ -59,7 +59,7 @@ In both cases, you'll find your clustered data under the following path: ```data
 
 For this, run the following steps:
 
-  -```from src.model.model import KMeans```
+  -```from KMeans.model.model import KMeans```
 
   -```model=KMeans()```
   
