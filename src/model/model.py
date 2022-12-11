@@ -18,6 +18,7 @@ from data_generator import Data_Generator
 from iteration import Generate_Region
 from trackcalls import trackcalls
 
+model_params=load_conf("configs/model_params.yml")
 
 class KMeans(Data_Generator, Generate_Region):
     """
@@ -33,9 +34,9 @@ class KMeans(Data_Generator, Generate_Region):
 
     def __init__(
         self,
-        path_config_model="configs/model_params.yml",
-        path_config_file="configs/data_params.yml",
-        path_config_default="configs/default_params.yml",
+        path_config_model=model_params["path_config_model"],
+        path_config_file=model_params["path_config_file"],
+        path_config_default=model_params["path_config_default"],
         **kwargs,
     ):
 
@@ -48,24 +49,24 @@ class KMeans(Data_Generator, Generate_Region):
                 raise AttributeError(f"The KMeans model has no attribute {param}")
             else:
                 self.dict_params[param] = value
-
+        
         self.dict_params = load_default_params(self.dict_params)
 
         if type(self.dict_params["init"]) == np.ndarray:
             self.dict_params["init"] = self.dict_params["init"].tolist()
-        with open("configs/final_params.json", "w") as fp:
+        with open(model_params["final_parameter_path"], "w") as fp:
             json.dump(self.dict_params, fp)
 
         self.configs = load_conf(path_config_file)
         self.configs_model = load_conf(path_config_model)
 
         if not self.dict_params["randomly_generated_data"]:
-            if not os.path.exists("data/data_to_cluster.npy"):
+            if not os.path.exists(model_params["to_cluster_data_path"]):
                 raise OSError(
                     "The user must upload his data under the\
                          path data/data_to_cluster.npy"
                 )
-            self.data = np.load("data/data_to_cluster.npy")
+            self.data = np.load(model_params["to_cluster_data_path"])
             updating_parameter(self.configs, self.data)
 
         self.K = self.dict_params["n_clusters"]
@@ -239,7 +240,7 @@ class KMeans(Data_Generator, Generate_Region):
         Returns:
             None
         """
-        np.save("data/final_clustered_data.npy", self.current_repartition)
+        np.save(model_params["final_data_save_path"], self.current_repartition)
 
     def get_final_cluster_position(self) -> np.array(float):
         """

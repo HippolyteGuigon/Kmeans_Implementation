@@ -10,7 +10,6 @@ test = Data_Generator()
 configs = load_conf("configs/data_params.yml")
 configs_model = load_conf("configs/model_params.yml")
 
-
 class Test(unittest.TestCase):
     """
     The goal of this class is to implement unnitest
@@ -57,7 +56,7 @@ class Test(unittest.TestCase):
         K = model_test.get_params()["n_clusters"]
         test_centroid = model_test.generate_initial_K()
         model_test.first_attribution()
-        configs = load_conf("configs/data_params.yml")
+        configs = load_conf(configs_model["path_config_file"])
         self.assertEqual(test_centroid.shape[0], K)
         self.assertEqual(test_centroid.shape[1], configs["number_dimension"])
 
@@ -146,7 +145,7 @@ class Test(unittest.TestCase):
             high=1000,
             size=(1000, np.random.randint(low=1, high=10))
         )
-        np.save("data/data_to_cluster.npy", data_generated)
+        np.save(configs_model["to_cluster_data_path"], data_generated)
         try:
             os.system("python main.py Hippolyte own_data")
         except:
@@ -187,7 +186,7 @@ class Test(unittest.TestCase):
         model.generate_initial_K()
         model.first_attribution()
         model.fit()
-        configs = load_conf("configs/data_params.yml")
+        configs = load_conf(configs_model["path_config_file"])
         np.random.seed(42)
         X = np.random.uniform(
             low=-100, high=100, size=(100, configs["number_dimension"])
