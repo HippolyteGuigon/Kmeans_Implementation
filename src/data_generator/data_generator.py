@@ -7,6 +7,7 @@ sys.path.insert(0, "../configs")
 
 from confs import load_conf
 
+model_params=load_conf("configs/model_params.yml")
 
 class Data_Generator:
     """
@@ -43,7 +44,7 @@ class Data_Generator:
             )
 
         else:
-            data_generated=np.load("data/data_to_cluster.npy")
+            data_generated=np.load(model_params["to_cluster_data_path"])
             
         return data_generated
 

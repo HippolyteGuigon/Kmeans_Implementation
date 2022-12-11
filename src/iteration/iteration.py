@@ -7,6 +7,7 @@ from confs import load_conf, updating_parameter
 from scipy import spatial
 import json
 
+model_params=load_conf("configs/model_params.yml")
 
 class Generate_Region:
     """
@@ -42,7 +43,7 @@ class Generate_Region:
             that will be used to determine the centroids of
             the regions
         """
-        n_rows = 1000 * self.configs["number_of_individuals"]
+        n_rows = model_params["nb_points_region"] * self.configs["number_of_individuals"]
         n_columns = self.configs["number_dimension"]
         lim_min = self.configs["limit_min"]
         lim_max = self.configs["limit_max"]

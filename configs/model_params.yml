@@ -1,5 +1,7 @@
 #The goal of this yml is to have the parameters of the KMeans model
 
+nb_points_region: 1000
+
 path_save: data/data_generated.npy
 
 final_save_path: "data/final_cluster_position.npy"
