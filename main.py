@@ -3,6 +3,7 @@ import logging
 import logging.handlers
 import sys
 import numpy as np
+from src.confs.confs import load_conf
 
 sys.path.insert(0, "src/logs")
 sys.path.insert(0, "src/model")
@@ -13,6 +14,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
 
+model_params=load_conf("configs/model_params.yml")
 main()
 
 parser = argparse.ArgumentParser()
@@ -64,7 +66,7 @@ def model_launch() -> None:
     logger.info(f"Model has converged {args.Name}")
     model.save_final_clustering()
     logger.info(f"Clustering is over and your data has been saved {args.Name}")
-    np.save("data/final_cluster_position.npy", model.get_final_cluster_position())
+    np.save(model_params["final_save_path"], model.get_final_cluster_position())
 
 
 if __name__ == "__main__":

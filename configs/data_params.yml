@@ -1,14 +1,13 @@
 #The goal of this yml is to have the parameters of the created data points
-#params:
-#number_of_individuals: int  The number of points created. 
-#number_dimension: int The dimension in which points are
-#limit_min: int The minimum value a point can take on a dimension
-#limit_max: int The maximum value a point can take on a dimension
 
+#number_of_individuals: int  The number of points created. 
 number_of_individuals: 100
 
+#number_dimension: int The dimension in which points are
 number_dimension: 9
 
+#limit_min: int The minimum value a point can take on a dimension
 limit_min: -1000
 
+#limit_max: int The maximum value a point can take on a dimension
 limit_max: 1000
