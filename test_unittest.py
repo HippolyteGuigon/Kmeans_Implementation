@@ -140,10 +140,11 @@ class Test(unittest.TestCase):
         Returns:
             -bool: True or False
         """
+        np.random.seed(42)
         data_generated = np.random.uniform(
             low=-1000,
             high=1000,
-            size=(1000, np.random.randint(low=1, high=10)),
+            size=(1000, np.random.randint(low=1, high=10))
         )
         np.save("data/data_to_cluster.npy", data_generated)
         try:
@@ -187,6 +188,7 @@ class Test(unittest.TestCase):
         model.first_attribution()
         model.fit()
         configs = load_conf("configs/data_params.yml")
+        np.random.seed(42)
         X = np.random.uniform(
             low=-100, high=100, size=(100, configs["number_dimension"])
         )
@@ -246,6 +248,7 @@ class Test(unittest.TestCase):
         """
         dimension=np.random.randint(1, 10)
         number_of_rows=np.random.randint(low=500,high=1000)
+        np.random.seed(42)
         X=np.random.uniform(low=-100, high=100,size=(number_of_rows,dimension))
         y=np.random.uniform(low=-1000,high=1000,size=(number_of_rows,dimension))
         model=KMeans(randomly_generated_data=False)
