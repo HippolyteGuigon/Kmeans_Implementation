@@ -3,7 +3,6 @@ import os
 import numpy as np
 import ruamel.yaml
 
-
 def load_conf(path: str) -> yaml:
     """
     The goal of this function is to load the
@@ -19,6 +18,7 @@ def load_conf(path: str) -> yaml:
         file = yaml.safe_load(ymlfile)
     return file
 
+model_params=load_conf("configs/model_params.yml")
 
 def load_default_params(
     dict_params: dict(), path_default_params="configs/default_params.yml"
@@ -61,7 +61,7 @@ def updating_parameter(dict_conf, points) -> None:
     Returns:
         None
     """
-    data = np.load(os.path.join(os.getcwd(), "data/data_to_cluster.npy"))
+    data = np.load(os.path.join(os.getcwd(), model_params["to_cluster_data_path"]))
     yaml = ruamel.yaml.YAML()
     with open(os.path.join(os.getcwd(), "configs/data_params.yml")) as fp:
         data = yaml.load(fp)

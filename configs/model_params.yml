@@ -3,3 +3,5 @@
 path_save: data/data_generated.npy
 
 final_save_path: "data/final_cluster_position.npy"
+
+to_cluster_data_path: "data/data_to_cluster.npy"
