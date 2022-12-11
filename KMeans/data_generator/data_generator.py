@@ -2,10 +2,7 @@ import sys
 import numpy as np
 import os
 
-sys.path.insert(0, os.path.join(os.getcwd(), "KMeans/confs"))
-sys.path.insert(0, "../configs")
-
-from confs import load_conf
+from KMeans.confs.confs import load_conf
 
 model_params=load_conf("configs/model_params.yml")
 

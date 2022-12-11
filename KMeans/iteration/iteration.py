@@ -2,8 +2,7 @@ import numpy as np
 import sys
 import os
 
-sys.path.insert(0, os.path.join(os.getcwd(), "KMeans/confs"))
-from confs import load_conf, updating_parameter
+from KMeans.confs.confs import load_conf, updating_parameter
 from scipy import spatial
 import json
 

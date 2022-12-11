@@ -4,19 +4,13 @@ import os
 from sklearn.metrics.pairwise import pairwise_distances
 from sklearn.exceptions import NotFittedError
 from KMeans.confs.confs import load_conf, load_default_params, updating_parameter
+from KMeans.data_generator.data_generator import Data_Generator
+from KMeans.iteration.iteration import Generate_Region
+from KMeans.trackcalls.trackcalls import trackcalls
 import json
 from scipy import spatial
 import random
 import ruamel.yaml
-
-sys.path.insert(0, os.path.join(os.getcwd(), "KMeans/confs"))
-sys.path.insert(0, os.path.join(os.getcwd(), "KMeans/data_generator"))
-sys.path.insert(0, os.path.join(os.getcwd(), "KMeans/iteration"))
-sys.path.insert(0, os.path.join(os.getcwd(), "KMeans/trackcalls"))
-
-from data_generator import Data_Generator
-from iteration import Generate_Region
-from trackcalls import trackcalls
 
 model_params=load_conf("configs/model_params.yml")
 
