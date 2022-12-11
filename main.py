@@ -4,11 +4,8 @@ import logging.handlers
 import sys
 import numpy as np
 from src.confs.confs import load_conf
-
-sys.path.insert(0, "src/logs")
-sys.path.insert(0, "src/model")
-from model import KMeans
-from logs import main
+from src.logs.logs import main
+from src.model.model import KMeans
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
