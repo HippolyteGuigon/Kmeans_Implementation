@@ -5,7 +5,16 @@
 *.json
 *.txt
 *.npy
+*.log
+*.npy
+*.icloud
 
+#Except these files
+
+!K_means.png
+!requirements.txt
+!data_generated.npy
+!data_to_cluster.npy
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -14,6 +23,7 @@ __pycache__/
 
 # C extensions
 *.so
+env/*
 
 # Distribution / packaging
 .Python
