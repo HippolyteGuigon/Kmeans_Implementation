@@ -12,7 +12,7 @@ to_cluster_data_path: "data/data_to_cluster.npy"
 
 final_parameter_path: "configs/final_params.json"
 
-path_config_model: "configs/model_params.yml"
+path_config_model: "configs/path_params.yml"
 
 path_config_file: "configs/data_params.yml"
 

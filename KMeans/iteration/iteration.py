@@ -6,7 +6,7 @@ from KMeans.confs.confs import load_conf, updating_parameter
 from scipy import spatial
 import json
 
-model_params=load_conf("configs/model_params.yml")
+model_params=load_conf("configs/path_params.yml")
 
 class Generate_Region:
     """
@@ -18,7 +18,7 @@ class Generate_Region:
 
     def __init__(
         self,
-        path_config_model="configs/model_params.yml",
+        path_config_model="configs/path_params.yml",
         path_config_file="configs/data_params.yml",
         path_final_params="configs/final_params.json",
     ):

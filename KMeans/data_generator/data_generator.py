@@ -4,7 +4,7 @@ import os
 
 from KMeans.confs.confs import load_conf
 
-model_params=load_conf("configs/model_params.yml")
+model_params=load_conf("configs/path_params.yml")
 
 class Data_Generator:
     """
@@ -15,7 +15,7 @@ class Data_Generator:
     def __init__(
         self,
         path_config="configs/data_params.yml",
-        path_config_model="configs/model_params.yml",
+        path_config_model="configs/path_params.yml",
     ) -> None:
         self.configs = load_conf(path_config)
         self.configs_model = load_conf(path_config_model)

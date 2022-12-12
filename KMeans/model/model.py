@@ -12,7 +12,7 @@ from scipy import spatial
 import random
 import ruamel.yaml
 
-model_params=load_conf("configs/model_params.yml")
+model_params=load_conf("configs/path_params.yml")
 
 class KMeans(Data_Generator, Generate_Region):
     """

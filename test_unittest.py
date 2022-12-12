@@ -8,7 +8,7 @@ import os
 test = Data_Generator()
 
 configs = load_conf("configs/data_params.yml")
-configs_model = load_conf("configs/model_params.yml")
+configs_model = load_conf("configs/path_params.yml")
 
 class Test(unittest.TestCase):
     """

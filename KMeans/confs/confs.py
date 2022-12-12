@@ -18,7 +18,7 @@ def load_conf(path: str) -> yaml:
         file = yaml.safe_load(ymlfile)
     return file
 
-model_params=load_conf("configs/model_params.yml")
+model_params=load_conf("configs/path_params.yml")
 
 def load_default_params(
     dict_params: dict(), path_default_params="configs/default_params.yml"

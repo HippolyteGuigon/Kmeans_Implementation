@@ -4,7 +4,7 @@
 number_of_individuals: 100
 
 #number_dimension: int The dimension in which points are
-number_dimension: 1
+number_dimension: 8
 
 #limit_min: int The minimum value a point can take on a dimension
 limit_min: -1000

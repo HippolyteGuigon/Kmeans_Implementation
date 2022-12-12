@@ -11,7 +11,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
 
-model_params=load_conf("configs/model_params.yml")
+model_params=load_conf("configs/path_params.yml")
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
